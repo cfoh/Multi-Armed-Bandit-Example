@@ -85,3 +85,53 @@ See below, if we set `epsilon = 1.0`, we essentially force the ML agent to opera
 
 <img src="https://user-images.githubusercontent.com/51439829/191068591-0055e7ab-a9db-4465-a207-ffffe189db3e.png" height="300">
 
+## MAB & CMAB Implementation
+
+The basic version of MAB and CMAB are very easy to implemenet. 
+
+For MAB:
+```Python
+import operator
+
+class MAB:
+    '''Simple Multi-armed Bandit implementation.'''
+    def __init__(self):
+        self.total_rewards = {}
+        self.total_count = {}
+        self.average_reward = {}
+
+    def update_reward(self, arm, reward):
+        if arm not in self.total_rewards: 
+            self.total_rewards[arm] = 0
+            self.total_count[arm] = 0
+        self.total_rewards[arm] += reward
+        self.total_count[arm] += 1
+        self.average_reward[arm] = self.total_rewards[arm]/self.total_count[arm]
+
+    def get_reward(self, arm):
+        if arm not in self.average_reward: return 0
+        return self.average_reward[arm]
+
+    def get_best_arm(self): # return a tuple (arm,reward)
+        return max(self.average_reward.items(), key=operator.itemgetter(1))
+```
+
+For CMAB based on the above MAB code:
+```Python
+class CMAB:
+    '''Simple Contextual Multi-armed Bandit implementation.'''
+    def __init__(self):
+        self.mab = {}
+
+    def update_reward(self, arm, reward, context=None):
+        if context not in self.mab: self.mab[context] = MAB()
+        self.mab[context].update_reward(arm, reward)
+
+    def get_reward(self, arm, context=None):
+        if context not in self.mab: return 0
+        return self.mab[context].get_reward(arm)
+
+    def get_best_arm(self, context=None): # return a tuple (arm,reward)
+        if context not in self.mab: return (None,None)
+        return self.mab[context].get_best_arm()
+```
