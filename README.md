@@ -116,7 +116,7 @@ class MAB:
         return max(self.average_reward.items(), key=operator.itemgetter(1))
 ```
 
-For CMAB based on the above MAB code:
+For CMAB based on the above MAB class:
 ```Python
 class CMAB:
     '''Simple Contextual Multi-armed Bandit implementation.'''
