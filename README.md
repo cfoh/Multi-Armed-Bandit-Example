@@ -105,7 +105,13 @@ See below, if we set `epsilon = 1.0`, we essentially force the ML agent to opera
 
 ## MAB & CMAB Implementation
 
-The basic version of MAB and CMAB are very easy to implemenet. 
+The basic version of MAB and CMAB are very easy to implemenet. The value of an action is calculated by
+
+$Q_{k}(a) = \frac{1}{k}\left(r_1 + r_2 + \cdots + r_k\right)$
+
+where $k$ is the number of times that action $a$ has been chosen in the past, $r_i$ is the $i$-th reward when action $a$ was chosen, and the sum $(r_1 + r_2 + \cdots + r_k)$ is the total reward. We can also compute $Q_{k}(a)$ recursively by
+
+$Q_{k}(a) = \frac{1}{k} \left((k-1)\cdot Q_{k-1}(a) + r_k\right)$.
 
 For MAB:
 ```Python
