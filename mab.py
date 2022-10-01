@@ -1,5 +1,5 @@
 '''
-Digital advertising is a form of marketing that targets online
+**Digital advertising** is a form of marketing that targets online
 users. A simple example of online marketing is where a website
 embeds a small advertisement banner with the objective that 
 users visiting the website will click the advertisement banner 
@@ -12,14 +12,31 @@ the user group and how they respond to each type of advertisements.
 In other words, we need to find the relationship between user 
 group and the type of advertisements that interests them most.
 
-In this tutorial, we shall use Multi-Armed Bandit (MAB) 
+In this tutorial, we shall use **Multi-Armed Bandit** (MAB) 
 reinforcement learning (RL) to establish the relationship. MAB
 is an online learning meaning that the machine learning (ML) agent
 learns during the operation. 
 
+In reinforcement learning, the ML agent interacts with the environment 
+to learn the behaviour of the environment and try to find appropriate
+actions that can maximize the rewards. The following diagram illustrates
+the interaction between the ML agent and the environment:
+```
+        +-----------------------+
+        |        Action         |
+        |                       V
+   +---------+           +--------------+
+   |   ML    |           |              |
+   |  Agent  |           | Environment  |
+   +---------+           |              |
+        ^                +--------------+
+        |    State, Reward      |
+        +-----------------------+
+```
+
 We first need to define the behaviour of users. This is the 
-environment logic defining how a user responds to an offered 
-advertisement. The logic behind it is not known to the ML agent,
+`environment` defining how a user responds to an offered 
+advertisement. The user behaviour is not known to the ML agent,
 and it is the task of the ML agent to learn and establish the
 relationship. The ML agent knows the user profile, and its job
 is to discover which advertisement is most attactive to the
@@ -28,6 +45,8 @@ user.
 The behaviour of users are described in the following table. 
 It shows the likelihood of each age clicking different types
 of advertisements.
+```
+  The Environment
 +-------------------+--------------------------------------+
 |                   |              Age group               |
 | Ad Type           |  <25    26-35   36-45   46-55  >55   |
@@ -38,6 +57,7 @@ of advertisements.
 | Holiday Packages  |   5%     20%     20%    50%    20%   |
 | Foods & Health    |   5%      5%     20%    10%    60%   |
 +-------------------+--------------------------------------+
+```
 
 With Contextual MAB, our setup is:
 - the `context` is the age group
