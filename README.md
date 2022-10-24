@@ -15,12 +15,10 @@
     </ul>
 </td>
 <td>
-<img src="nothing.gif" height="300">
+<img src="https://user-images.githubusercontent.com/51439829/197636809-873aa5d4-b391-46ac-9ba4-e2bdf35b529d.gif" width="400">
 </td>
 </tr>
 </table>
-
-
 
 ## Introduction<a name=intro></a>
 
