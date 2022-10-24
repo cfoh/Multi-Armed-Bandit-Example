@@ -1,6 +1,26 @@
 # Contextual Multi-Armed Bandit Example
 
-## Introduction
+<table>
+<tr>
+<th>Table of Contents</th>
+<th>Demo</th>
+</tr>
+<tr>
+<td valign="top">
+    <ul>
+        <li><a href=#intro>Introduction</a></li>
+        <li><a href=#outcomes>The Outcomes</a></li>
+        <li><a href=#results>Result Plotting</a></li>
+        <li><a href=#codes>MAB/CMAB Implementation</a></li>
+    </ul>
+</td>
+<td>
+<img src="https://user-images.githubusercontent.com/51439829/197636809-873aa5d4-b391-46ac-9ba4-e2bdf35b529d.gif" width="400">
+</td>
+</tr>
+</table>
+
+## Introduction<a name=intro></a>
 
 **Digital advertising** is a form of marketing that targets online
 users. A simple example of online marketing is where a website
@@ -20,9 +40,26 @@ reinforcement learning (RL) to establish the relationship. MAB
 is an online learning meaning that the machine learning (ML) agent
 learns during the operation. 
 
+In reinforcement learning, the ML agent interacts with the environment 
+to learn the behaviour of the environment and try to find appropriate
+actions that can maximize the rewards. The following diagram illustrates
+the interaction between the ML agent and the environment:
+```
+        +-----------------------+
+        |        Action         |
+        |                       V
+   +---------+           +--------------+
+   |   ML    |           |              |
+   |  Agent  |           | Environment  |
+   +---------+           |              |
+        ^                +--------------+
+        |    State, Reward      |
+        +-----------------------+
+```
+
 We first need to define the behaviour of users. This is the 
-environment logic defining how a user responds to an offered 
-advertisement. The logic behind it is not known to the ML agent,
+`environment` defining how a user responds to an offered 
+advertisement. The user behaviour is not known to the ML agent,
 and it is the task of the ML agent to learn and establish the
 relationship. The ML agent knows the user profile, and its job
 is to discover which advertisement is most attactive to the
@@ -32,6 +69,7 @@ The behaviour of users are described in the following table.
 It shows the likelihood of each age clicking different types
 of advertisements.
 ```
+  The Environment
 +-------------------+--------------------------------------+
 |                   |              Age group               |
 | Ad Type           |  <25    26-35   36-45   46-55  >55   |
@@ -49,7 +87,7 @@ With Contextual MAB, our setup is:
 - the `arms` are advertisement type to offer
 - the `reward` is 100 if click is registered, otherwise 0
 
-## Outcomes
+## Outcomes<a name=outcomes></a>
 
 We measure the effectiveness of our strategy using `click rate`. It is the percentage that a user will click and explore the offered advertisement. By setting epsilon to 0.15, we achieve around 48% of click rate. With the user behaviour, the theoretical best click rate we can achieve is 56%. As you can see, we are not far from the theoretical best.
 
@@ -75,7 +113,7 @@ The theoretical result is calculated based on the assumption that we know the us
 $\frac{80+50+40+50+60}{5} = 56$.
 </p>
 
-## Plots
+## Plots<a name=results></a>
 
 We can also see how click rate evolves over the time for each user age group. 
 
@@ -85,9 +123,15 @@ See below, if we set `epsilon = 1.0`, we essentially force the ML agent to opera
 
 <img src="https://user-images.githubusercontent.com/51439829/191068591-0055e7ab-a9db-4465-a207-ffffe189db3e.png" height="300">
 
-## MAB & CMAB Implementation
+## MAB & CMAB Implementation<a name=codes></a>
 
-The basic version of MAB and CMAB are very easy to implemenet. 
+The basic version of MAB and CMAB are very easy to implemenet. The value of an action (or arm) is the average reward which is calculated by
+
+$Q_{k}(a) = \frac{1}{k}\left(r_1 + r_2 + \cdots + r_k\right)$
+
+where $k$ is the number of times that action $a$ has been chosen in the past, $r_i$ is the $i$-th reward when action $a$ was chosen, and the sum $(r_1 + r_2 + \cdots + r_k)$ is the total reward. We can also compute $Q_{k}(a)$ recursively by
+
+$Q_{k}(a) = \frac{1}{k} \left((k-1)\cdot Q_{k-1}(a) + r_k\right)$.
 
 For MAB:
 ```Python
@@ -116,7 +160,7 @@ class MAB:
         return max(self.average_reward.items(), key=operator.itemgetter(1))
 ```
 
-For CMAB based on the above MAB code:
+For CMAB based on the above MAB class:
 ```Python
 class CMAB:
     '''Simple Contextual Multi-armed Bandit implementation.'''
