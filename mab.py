@@ -45,8 +45,10 @@ With Contextual MAB, our setup is:
 - the `reward` is 100 if click is registered, otherwise 0
 '''
 
+from math import ceil
 import operator
 import random
+import time
 import matplotlib.pyplot as plt
 
 ######################################################################
@@ -167,7 +169,7 @@ class ClickResult:
 
 
 ####################################################################
-## main launcher
+## main loop
 ####################################################################
 
 if __name__ == "__main__":
@@ -183,6 +185,24 @@ if __name__ == "__main__":
     ## set epsilon, i.e. the percentage of exploration
     epsilon = 0.15 
     #epsilon = 1.0  # set to 1.0 for 100% exploration
+
+    ## ready set go
+    print()
+    spin = ["\u2212","\\","|","/","\u2212","\\","|","/"]
+    for i in range(30,0,-1):
+        print(f"\033[KReady in ...{ceil(i/10)} {spin[i%len(spin)]}")
+        print("\033[2A")
+        time.sleep(0.15)
+    print(f"\033[K")
+
+    ## choose an age group to visulize
+    visualized_age_group = 2
+    count_offered_ad = {}
+    total_offered_ad = 0
+    for ad_type in Ad.ListAdType: count_offered_ad[ad_type]=0
+    print(f"Visualizing Rewards of Age Group {visualized_age_group}\n")
+    print("Ad_type   Reward  Shown_to_users (in %)")
+    print("---------------------------------------")
 
     ## this is the main loop
     ## the objective of ML agent is to achieve 
@@ -212,7 +232,22 @@ if __name__ == "__main__":
             ClickResult.report(user.group,False)
         cmab.update_reward(arm=offered_ad, reward=click_reward, context=user.group)
 
+        ## show animation (only for a specific age group)
+        if user.group==visualized_age_group:
+            count_offered_ad[offered_ad] += 1
+            total_offered_ad += 1
+            for arm in Ad.ListAdType:
+                r = cmab.get_reward(arm,user.group)
+                count = 100*count_offered_ad[arm]/total_offered_ad
+                print(f"\033[K> {arm:8s} {r:5.1f} ",end="")
+                print("*" if arm==offered_ad else " ",end="")
+                print("[%s] %d%%"%("="*int(count/2),count))
+            print(f"\nClick rate = {ClickResult.get_click_rate(user.group)[-1]:5.2}")
+            print("\033[8A")
+            time.sleep(0.05)
+
     ## show outcome
+    print("\n\n\n\n\n")
     print(f"Epsilon = {epsilon}")
     print(f"Number of users = {num_users}")
     print(f"Number of clicks = {num_clicks}")
