@@ -24,7 +24,7 @@ The above demo shows how the ML agent offers advertisement to `Age Group 2`. Use
 
 When the reward for `sports` is much greater than others, the agent will certainly show `sports` to the users. It may still show other ad types, but only during occasional exploration.
 
-To restart the animation, press `[F5]`.
+Press `[F5]` to restart the demo.
 
 ## Introduction<a name=intro></a>
 
