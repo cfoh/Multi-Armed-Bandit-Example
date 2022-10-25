@@ -125,7 +125,11 @@ We can also see how click rate evolves over the time for each user age group.
 
 <img src="https://user-images.githubusercontent.com/51439829/197748313-5b9ea8d5-c44e-4f08-8173-0702415d8465.png" width="400">
 
-See below, if we set `epsilon = 1.0`, we essentially force the ML agent to operate in 100% exploration. During exploration, the ML agent simply randomly picks a type of advertisements. The click rate is thus the overall average of the click probability for all age groups. The average of all 25 click probabilities given in the user behaviour matrix is 27.4%.
+See below, if we set `epsilon = 1.0`, we essentially force the ML agent to operate in 100% exploration. During exploration, the ML agent simply randomly picks a type of advertisements. The click rate for each age group is simply the average of the 5 click probabilities in the age group. So we have:
+
+| Age Group:      | 0  | 1  | 2  | 3  | 4  |
+|-----------------|----|----|----|----|----|
+| Click rate (%): | 22 | 28 | 28 | 28 | 31 |
 
 <img src="https://user-images.githubusercontent.com/51439829/197748387-ac5db93b-f6e9-41d4-bda1-395926ecf741.png" width="406">
 
