@@ -121,13 +121,13 @@ $\frac{80+50+40+50+60}{5} = 56$.
 
 ## Plots<a name=results></a>
 
-We can also see how click rate evolves over the time for each user age group. 
+We can also see how click rate evolves over the time for each user age group.
 
-<img src="https://user-images.githubusercontent.com/51439829/191068018-893da713-03cb-49e1-94c2-b0f47f8adcc2.png" height="300">
+<img src="https://user-images.githubusercontent.com/51439829/197748313-5b9ea8d5-c44e-4f08-8173-0702415d8465.png" width="400">
 
 See below, if we set `epsilon = 1.0`, we essentially force the ML agent to operate in 100% exploration. During exploration, the ML agent simply randomly picks a type of advertisements. The click rate is thus the overall average of the click probability for all age groups. The average of all 25 click probabilities given in the user behaviour matrix is 27.4%.
 
-<img src="https://user-images.githubusercontent.com/51439829/191068591-0055e7ab-a9db-4465-a207-ffffe189db3e.png" height="300">
+<img src="https://user-images.githubusercontent.com/51439829/197748387-ac5db93b-f6e9-41d4-bda1-395926ecf741.png" width="406">
 
 ## MAB & CMAB Implementation<a name=codes></a>
 
