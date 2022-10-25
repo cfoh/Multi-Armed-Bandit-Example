@@ -51,11 +51,11 @@ different types of advertisements.
 |                   |              Age group               |
 | Ad Type           |  <25    26-35   36-45   46-55  >55   |
 +-------------------+--------------------------------------+
-| Toys & Games      |  80%     15%      5%     5%     5%   |
-| Cars              |   5%     50%     15%    10%     5%   |
-| Sports            |   5%     10%     40%    25%    10%   |
-| Holiday Packages  |   5%     20%     20%    50%    20%   |
-| Foods & Health    |   5%      5%     20%    10%    60%   |
+| Toys & Games      |  80%     15%     10%     5%     5%   |
+| Cars              |   5%     50%     30%    15%    10%   |
+| Sports            |  15%     30%     40%    30%    30%   |
+| Holiday Packages  |   5%     20%     35%    50%    50%   |
+| Foods & Health    |   5%     25%     25%    40%    60%   |
 +-------------------+--------------------------------------+
 ```
 
@@ -115,35 +115,21 @@ class CMAB:
         return self.mab[context].get_best_arm()
 
 ######################################################################
-## User behaviour matrix (static class)
+## User behaviour matrix for the environment (static class)
 ######################################################################
 
 class Ad:
 
     AgeGroupSize = 5
     Type = {    ##   <25 <35 <45 <55 >55  (age group)
-        "toys"     : [80, 15,  5,  5,  5],
-        "cars"     : [ 5, 50, 15, 10,  5],
-        "sports"   : [ 5, 10, 40, 25, 10],
-        "holidays" : [ 5, 20, 20, 50, 20],
-        "foods"    : [ 5,  5, 20, 10, 60]
+        "toys"     : [80, 15, 10,  5,  5],
+        "cars"     : [ 5, 50, 30, 15, 10],
+        "sports"   : [15, 30, 40, 30, 30],
+        "holidays" : [ 5, 20, 35, 50, 50],
+        "foods"    : [ 5, 25, 25, 40, 60]
     }
     ListAdType = list(Type.keys()) # list of all ad types
     ListAgeGroup = range(AgeGroupSize)
-
-    @staticmethod
-    def check():
-        ## perform checking
-        for age_group in Ad.ListAgeGroup:
-            percentage = 0
-            for ad_type in Ad.Type:
-                percentage += Ad.Type[ad_type][age_group]
-            if percentage!=100:
-                print(f"Warning: Age group {age_group} doesn't add up to 100%")
-        for ad_type in Ad.Type:
-            if len(Ad.Type[ad_type])!=Ad.AgeGroupSize:
-                print(f"Warning: Ad type {ad_type} doesn't contain all age groups")
-
 
 ######################################################################
 ## Client profile
@@ -158,9 +144,8 @@ class Client:
 
     def will_click(self, ad) -> bool:
         '''Will this client clicks this advert?'''
-        ad_types = Ad.ListAdType
-        ad_weights = [w[self.group] for w in list(Ad.Type.values())]
-        if ad in random.choices(ad_types,ad_weights):
+        click_prob = random.randint(0,99)
+        if click_prob<Ad.Type[ad][self.group]:
             return True
         return False
 
@@ -194,9 +179,6 @@ class ClickResult:
 
 if __name__ == "__main__":
 
-    ## check the user behaviour matrix
-    Ad.check()
-
     ## setup test parameters
     cmab = CMAB()  # Contextual MAB agent
     num_users = 10000 # number of users to visit the website
@@ -208,9 +190,9 @@ if __name__ == "__main__":
 
     ## ready set go
     print()
-    spin = ["\u2212","\\","|","/","\u2212","\\","|","/"]
-    for i in range(30,0,-1):
-        print(f"\033[KReady in ...{ceil(i/10)} {spin[i%len(spin)]}")
+    spiner = ["\u2212","\\","|","/","\u2212","\\","|","/"]
+    for i in range(50,0,-1):
+        print(f"\033[KRunning in ...{ceil(i/10)} {spiner[i%len(spiner)]}")
         print("\033[2A")
         time.sleep(0.15)
     print(f"\033[K")
@@ -221,8 +203,8 @@ if __name__ == "__main__":
     total_offered_ad = 0
     for ad_type in Ad.ListAdType: count_offered_ad[ad_type]=0
     print(f"Visualizing Rewards of Age Group {visualized_age_group}\n")
-    print("Ad_type   Reward  Shown_to_users (in %)")
-    print("---------------------------------------")
+    print("Ad_type   Reward  Ad_shown_to_users")
+    print("-----------------------------------")
 
     ## this is the main loop
     ## the objective of ML agent is to achieve 
@@ -261,7 +243,7 @@ if __name__ == "__main__":
                 count = 100*count_offered_ad[arm]/total_offered_ad
                 print(f"\033[K> {arm:8s} {r:5.1f} ",end="")
                 print("*" if arm==offered_ad else " ",end="")
-                print("[%s] %d%%"%("="*int(count/2),count))
+                print("[%s] %d"%("="*int(count/2),count_offered_ad[arm]))
             print(f"\nClick rate = {ClickResult.get_click_rate(user.group)[-1]:5.2}")
             print("\033[8A")
             time.sleep(0.05)
