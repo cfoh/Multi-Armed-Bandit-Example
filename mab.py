@@ -43,8 +43,8 @@ is to discover which advertisement is most attactive to the
 user.
 
 The behaviour of users are described in the following table. 
-It shows the likelihood of each age clicking different types
-of advertisements.
+It shows the likelihood of users in each age group clicking 
+different types of advertisements.
 ```
   The Environment
 +-------------------+--------------------------------------+
@@ -62,7 +62,7 @@ of advertisements.
 With Contextual MAB, our setup is:
 - the `context` is the age group
 - the `arms` are advertisement type to offer
-- the `reward` is 100 if click is registered, otherwise 0
+- the `reward` is 100 if a click is registered, otherwise 0
 '''
 
 from math import ceil
