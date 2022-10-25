@@ -100,17 +100,17 @@ We measure the effectiveness of our strategy using `click rate`. It is the perce
 ```
 Epsilon = 0.15
 Number of users = 10000
-Number of clicks = 4803
-Click rate = 48.03%
+Number of clicks = 5060
+Click rate = 50.60%
 Theoretical best click rate = 56.00%
 
 Age group   Ad to offer    Expected CMAB reward
 ===============================================
-    0         toys              79.41
-    1         cars              50.77
-    2         sports            39.00
-    3         holidays          49.32
-    4         foods             59.99
+    0         toys              80.37
+    1         cars              47.20
+    2         sports            40.16
+    3         holidays          49.48
+    4         foods             58.16
 ```
 
 The theoretical result is calculated based on the assumption that we know the user behaviour matrix. As a result, knowing the user age group, we will always offer the most attractive advertisement to the user. For example, for Age Group 0 (or <25), we'll always show advertisement related to "Toys" as we know that 80% of the users will click and explore the advertisement, and thus our success rate is 80% too. So, the overall successful click rate (in %) is the average over all user age groups, and this gives
