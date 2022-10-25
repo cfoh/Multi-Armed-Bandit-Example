@@ -131,7 +131,7 @@ See below, if we set `epsilon = 1.0`, we essentially force the ML agent to opera
 
 ## MAB & CMAB Implementation<a name=codes></a>
 
-The basic version of MAB and CMAB are very easy to implemenet. The value of an action (or arm) is the average reward which is calculated by
+The most basic version of MAB and CMAB is very easy to implemenet. The value of an action (or arm) is the average reward which is calculated by
 
 $Q_{k}(a) = \frac{1}{k}\left(r_1 + r_2 + \cdots + r_k\right)$
 
