@@ -113,7 +113,7 @@ Age group   Ad to offer    Expected CMAB reward
     4         foods             58.16
 ```
 
-The theoretical result is calculated based on the assumption that we know the user behaviour matrix. As a result, knowing the user age group, we will always offer the most attractive advertisement to the user. For example, for Age Group 0 (or <25), we'll always show advertisement related to "Toys" as we know that 80% of the users will click and explore the advertisement, and thus our success rate is 80% too. So, the overall successful click rate (in %) is the average over all user age groups, and this gives
+The theoretical result is calculated based on the assumption that we know the user behaviour matrix. As a result, knowing the user age group, we will always offer the most attractive advertisement to the user. For example, for Age Group 0 (or <25), we'll always show advertisement related to "Toys" as we know that 80% of the users will click and explore the advertisement, and thus our success rate is 80% too. So, the overall successful click rate (in %) is the average over all user age groups when we offered the most attractive advertisement, and this gives
 
 <p align="center">
 $\frac{80+50+40+50+60}{5} = 56$.
