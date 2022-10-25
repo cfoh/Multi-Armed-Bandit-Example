@@ -15,10 +15,16 @@
     </ul>
 </td>
 <td>
-<img src="https://user-images.githubusercontent.com/51439829/197636809-873aa5d4-b391-46ac-9ba4-e2bdf35b529d.gif" width="400">
+  <img src="https://user-images.githubusercontent.com/51439829/197636809-873aa5d4-b391-46ac-9ba4-e2bdf35b529d.gif" width="400">
 </td>
 </tr>
 </table>
+
+The above demo shows how the ML agent offers advertisement to `Age Group 2`. Users in this group prefer `sports`, with 40% chance to click. The ML agent will slowly discover this by observing high rewards from `sports` and lower from others, and present mostly `sports` to the users (i.e. the bar for `sports` gets longer over the time).
+
+When the reward for `sports` is much greater than others, the agent will certainly show `sports` to the users. It may still show other ad types, but only during occasional exploration.
+
+To restart the animation, press `[F5]`.
 
 ## Introduction<a name=intro></a>
 
