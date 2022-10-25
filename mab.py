@@ -185,8 +185,8 @@ if __name__ == "__main__":
     num_clicks = 0    # number of clicks collected
 
     ## set epsilon, i.e. the percentage of exploration
-    #epsilon = 0.15 
-    epsilon = 1.0  # set to 1.0 for 100% exploration
+    epsilon = 0.15 
+    #epsilon = 1.0  # set to 1.0 for 100% exploration
 
     ## ready set go
     print("\n")
