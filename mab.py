@@ -185,16 +185,16 @@ if __name__ == "__main__":
     num_clicks = 0    # number of clicks collected
 
     ## set epsilon, i.e. the percentage of exploration
-    epsilon = 0.15 
-    #epsilon = 1.0  # set to 1.0 for 100% exploration
+    #epsilon = 0.15 
+    epsilon = 1.0  # set to 1.0 for 100% exploration
 
     ## ready set go
-    print()
+    print("\n")
     spiner = ["\u2212","\\","|","/","\u2212","\\","|","/"]
     for i in range(50,0,-1):
         print(f"\033[KRunning in ...{ceil(i/10)} {spiner[i%len(spiner)]}")
         print("\033[2A")
-        time.sleep(0.15)
+        time.sleep(0.1)
     print(f"\033[K")
 
     ## choose an age group to visulize
@@ -249,7 +249,7 @@ if __name__ == "__main__":
             time.sleep(0.05)
 
     ## show outcome
-    print("\n\n\n\n\n")
+    print("\n\n\n\n\n\n\n")
     print(f"Epsilon = {epsilon}")
     print(f"Number of users = {num_users}")
     print(f"Number of clicks = {num_clicks}")
