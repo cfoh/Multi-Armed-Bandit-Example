@@ -1,10 +1,9 @@
-# Contextual Multi-Armed Bandit Example
+# Multi-Armed Bandit (MAB)
 
 <table>
-<tr>
-<th>Table of Contents</th>
-<th>Demo</th>
-</tr>
+<tr><td colspan="2"><b>
+Chapter 1: Simple MAB
+</b></td></tr>
 <tr>
 <td valign="top">
     <ul>
@@ -15,16 +14,20 @@
     </ul>
 </td>
 <td>
+  Demo:<br>
   <img src="https://user-images.githubusercontent.com/51439829/197750117-97e50e9b-7fc0-4a16-ab77-fb1ddc8434c4.gif" width="400">
 </td>
-</tr>
-</table>
-
+<tr><td colspan="2">
 The above demo shows how the ML agent offers advertisement to `Age Group 2`. Users in this group prefer `sports`, with 40% chance to click. The ML agent will slowly discover this by noticing higher rewards from `sports` and lower from others, and will present mostly `sports` to the users (i.e. the bar for `sports` counting the number of advertisements shown to users gets longer over the time).
-
+<br>
 When the reward for `sports` is much greater than others, the agent will certainly show `sports` to the users. It may still show other ad types, but only during occasional exploration.
-
+<br>
 Press `[F5]` to restart the demo.
+</td>
+<tr><td colspan="2"><b>
+Chapter 2: MAB with Upper Confidence Bound (UCB)
+</b></td></tr>
+</table>
 
 ## Introduction<a name=intro></a>
 
