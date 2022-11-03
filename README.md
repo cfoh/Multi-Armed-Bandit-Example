@@ -25,6 +25,7 @@ When the reward for `sports` is much greater than others, the agent will certain
 Press `[F5]` to restart the demo.
 </td>
 <tr><td colspan="2"><b>
+More:<br>
 Chapter 2: MAB with Upper Confidence Bound (UCB)
 </b></td></tr>
 </table>
