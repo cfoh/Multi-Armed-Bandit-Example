@@ -26,7 +26,9 @@ Press `[F5]` to restart the demo.
 </td>
 <tr><td colspan="2"><b>
 More:<br>
-Chapter 2: MAB with Upper Confidence Bound (UCB)
+<ul>
+<li>Chapter 2: MAB with Upper Confidence Bound (UCB)</li>
+</ul>
 </b></td></tr>
 </table>
 
