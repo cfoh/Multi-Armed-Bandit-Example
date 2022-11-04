@@ -200,7 +200,7 @@ We can see which arms our ML agent picked over the time. As shown below, it inde
 
 ## What's Next?<a name=next></a>
 
-While being simple, the algorithm runs a risk of making premature decision without being able to collect enough statistic from the environment. 
+While being simple, the algorithm runs a risk of making premature decision without collecting enough statistic from the environment. 
 
 Take a look at the following demo. In this run, the agent had an unlucky start with `sports` as users didn't click the ad. As a result, the agent exploited `holidays`. While `sports` was explored, the occasional exploration wasn't enough to make up for the unlucky start. The potential of `sports` was suppressed. 
 
