@@ -26,7 +26,7 @@ Press `[F5]` to restart the demo.
 <tr><td colspan="2"><b>
 More:<br>
 <ul>
-<li>Chapter 2: Upper Confidence Bound (UCB) Multi Armed Bandit</li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Multi Armed Bandit</a></li>
 <li>Chapter 3: Contextual Multi Armed Bandit</li>
 </ul>
 </b></td></tr>
@@ -206,4 +206,4 @@ Take a look at the following demo. In this run, the agent had an unlucky start w
 
 <img src="https://user-images.githubusercontent.com/51439829/200084414-6511572e-d61b-47c6-b7fc-a1a7a85b2783.gif" width="400">
 
-Upper Confidence Bound (UCB) addresses the issue by giving extra reward to the arms that are less explored. We shall discuss this in the next chapter.
+Upper Confidence Bound (UCB) addresses the issue by giving extra reward to the arms that are less explored. We shall discuss this in the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb").
