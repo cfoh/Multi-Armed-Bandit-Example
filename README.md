@@ -8,7 +8,7 @@ Chapter 1: Simple MAB
 <td valign="top">
     <ul>
         <li><a href=#intro>Introduction</a></li>
-        <li><a href=#codes>MAB Implementation</a></li>
+        <li><a href=#codes>Implementation</a></li>
         <li><a href=#outcomes>The Outcomes</a></li>
         <li><a href=#results>Result Plotting</a></li>
         <li><a href=#next>What's Next?</a></li>
@@ -97,7 +97,7 @@ Our setup is:
 - the `arms` are advertisement type to offer
 - the `reward` is 1 if a click is registered, 0 otherwise
 
-## MAB & CMAB Implementation<a name=codes></a>
+## MAB Implementation<a name=codes></a>
 
 The concept of MAB is very simple. In this example, the agent has 5 ads (or `arms`) to show to users. It switches between exploration and exploitation. 
 - During exploration, it randomly picks an ad. After showing the ad, it observes whether the ad banner has been clicked by the user. The outcome is translated to `rewards` and recorded in a `reward table`.
