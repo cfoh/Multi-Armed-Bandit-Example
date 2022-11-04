@@ -36,9 +36,8 @@ We first need to define the behaviour of users. This is the
 `environment` defining how a user responds to an offered 
 advertisement. The user behaviour is not known to the ML agent,
 and it is the task of the ML agent to learn and establish the
-relationship. The ML agent knows the user profile, and its job
-is to discover which advertisement is the most attractive to the
-user.
+relationship. Its job is to discover which advertisement is 
+the most attractive to the user.
 
 The behaviour of users are described in the following table. 
 It shows the likelihood of users clicking different types of 
