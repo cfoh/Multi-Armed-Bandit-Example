@@ -111,7 +111,8 @@ where $k$ is the number of times that arm $a$ has been chosen in the past, $r_i$
 
 $Q_{k}(a) = \frac{1}{k} \left((k-1)\cdot Q_{k-1}(a) + r_k\right)$.
 
-For MAB:
+The implementation:
+
 ```Python
 class MAB:
 
@@ -150,12 +151,11 @@ class MAB:
         return max(self.average_reward.items(), key=operator.itemgetter(1))
 ```
 
-
 ## Outcomes<a name=outcomes></a>
 
 We measure the effectiveness of our strategy by `click rate`. It is the percentage that a user will click and explore the offered advertisement. By setting epsilon to 0.15, we achieve around 36% of click rate. With the user behaviour, the theoretical optimal click rate we can achieve is 40%. The theoretical optimal click rate assumes that the ML agent somehow knows the user behaviour and will always offer the ad with the highest click rate to users. In this case, the ML agent will always show `sports`.
 
-```
+```console
 Testing Simple MAB
 
 Ad_type   Reward  Ad_shown_to_users
@@ -180,26 +180,30 @@ The top shows the average reward recorded in the ML agent for each ad, and the n
 
 Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. The regret at round $T$ is calculated by
 
-$R(T) = T \mu^* - \sum_{t=1}^T \mu(a_t)$
+$R(T) = T \mu^* - \sum_{t=1}^{T} \mu(a_t)$
 
 where $\mu^*$ is the optimal average reward, $\mu(a_t)$ is the average rewards of arm $a_t$, and $a_t$ is the arm selected at round $t$. 
-
 
 ## Plots<a name=results></a>
 
 Here we plot the click rate evolves over the time below.
 
-<img src="https://user-images.githubusercontent.com/51439829/197748313-5b9ea8d5-c44e-4f08-8173-0702415d8465.png" width="400">
+![mab-click-rate](https://user-images.githubusercontent.com/51439829/200084339-512843fa-633d-46c6-949e-07b9cc3b2fce.png)
 
 In the following, we plot the regret evolution. As can be seen, the regret was climbing fast initially as `cars` was lucky to have higher click rate (or average reward) causing the agent to exploit it. After discovering `sports` having better average reward, it then started to exploit `sports`. Ideally the regret should stayed flat after that point in time. But since the agent still occasionally explored other arms, the regret increased slowly.
 
+![mab-regret](https://user-images.githubusercontent.com/51439829/200084369-acfbfea0-34f4-43b0-95de-58e4a605af49.png)
+
 We can see which arms our ML agent picked over the time. As shown below, it indeed picked `cars` (in blue) in the beginning. After `sports` (in pink) took over to offer the highest reward, it was exploited until the end of the simulation run.
 
+![mab-arm-selection](https://user-images.githubusercontent.com/51439829/200084382-6bde7ef8-4da9-4cf3-888d-f98331e69f9a.png)
 
 ## What's Next?<a name=next></a>
 
 While being simple, the algorithm runs a risk of making premature decision without being able to collect enough statistic from the environment. 
 
 Take a look at the following demo. In this run, the agent had an unlucky start with `sports` as users didn't click the ad. As a result, the agent exploited `holidays`. While `sports` was explored, the occasional exploration wasn't enough to make up for the unlucky start. The potential of `sports` was suppressed. 
+
+<img src="https://user-images.githubusercontent.com/51439829/200084414-6511572e-d61b-47c6-b7fc-a1a7a85b2783.gif" width="400">
 
 Upper Confidence Bound (UCB) addresses the issue by giving extra reward to the arms that are less explored. We shall discuss this in the next chapter.
