@@ -104,11 +104,11 @@ The concept of MAB is very simple. In this example, the agent has 5 ads (or `arm
 
 The average reward of an arm can be calculated directly by
 
-$Q_{k}(a) = \frac{1}{k}\left(r_1 + r_2 + \cdots + r_k\right)$
+$$Q_{k}(a) = \frac{1}{k}\left(r_1 + r_2 + \cdots + r_k\right)$$
 
 where $k$ is the number of times that arm $a$ has been chosen in the past, $r_i$ is the $i$-th reward when arm $a$ was chosen, and the sum $(r_1 + r_2 + \cdots + r_k)$ is the total reward. We can also compute $Q_{k}(a)$ recursively by
 
-$Q_{k}(a) = \frac{1}{k} \left((k-1)\cdot Q_{k-1}(a) + r_k\right)$.
+$$Q_{k}(a) = \frac{1}{k} \left((k-1)\cdot Q_{k-1}(a) + r_k\right).$$
 
 The implementation using the first direct method:
 
@@ -179,7 +179,7 @@ The top shows the average reward recorded in the ML agent for each ad, and the n
 
 Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. Let $a_t$ be the arm selected at round $t$ and the reward collected by selecting it is $\mu(a_t)$. Let $\mu^*$ be the optimal average reward. Then the gap between the collected and optimal rewards is simply $\mu^*-\mu(a_t)$. After accummulating $T$ rounds of regret, we get
 
-$R(T) = \sum_{t=1}^{T} (\mu^* - \mu(a_t)) = T \mu^* - \sum_{t=1}^{T} \mu(a_t)$.
+$$R(T) = \sum_{t=1}^{T} (\mu^* - \mu(a_t)) = T \mu^* - \sum_{t=1}^{T} \mu(a_t)$$
 
 ## Plots<a name=results></a>
 
@@ -187,11 +187,11 @@ Here we plot the click rate evolves over the time below.
 
 ![mab-click-rate](https://user-images.githubusercontent.com/51439829/200084339-512843fa-633d-46c6-949e-07b9cc3b2fce.png)
 
-In the following, we plot the regret evolution. As can be seen, the regret was climbing fast initially as `cars` was lucky to have higher click rate (or average reward) causing the agent to exploit it. After discovering `sports` having better average reward, it then started to exploit `sports`. Ideally the regret should stayed flat after that point in time. But since the agent still occasionally explored other arms, the regret increased slowly.
+In the following, we plot the regret evolution. As can be seen, the regret was climbing fast initially as `cars` was lucky to have higher click rate (or average reward) causing the agent to exploit it. After discovering that `sports` had a better average reward, it then started to exploit `sports`. Ideally the regret should stay flat after discovering `sports` being the best ad. But since the agent still occasionally explored other non-optimal arms, the regret continued to increase due to this.
 
 ![mab-regret](https://user-images.githubusercontent.com/51439829/200084369-acfbfea0-34f4-43b0-95de-58e4a605af49.png)
 
-We can see which arms our ML agent picked over the time. As shown below, it indeed picked `cars` (in blue) in the beginning. After `sports` (in pink) took over to offer the highest reward, it was exploited until the end of the simulation run.
+We can see which arms our ML agent picked over the time. As shown below, it indeed picked `cars` (in blue) at the beginning. After `sports` (in pink) took over to offer a better average reward, the agent then switched to exploit `sports` until the end of the simulation run.
 
 ![mab-arm-selection](https://user-images.githubusercontent.com/51439829/200084382-6bde7ef8-4da9-4cf3-888d-f98331e69f9a.png)
 
