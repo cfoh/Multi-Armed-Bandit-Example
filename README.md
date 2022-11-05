@@ -199,7 +199,7 @@ We can see which arms our ML agent picked over the time. As shown below, it inde
 
 While being simple, the algorithm runs a risk of making premature decision without collecting enough statistic from the environment. 
 
-Take a look at the following demo. In this run, the agent had an unlucky start with `sports` as users didn't click the ad. As a result, the agent exploited `holidays`. While `sports` was explored, the occasional exploration wasn't enough to make up for the unlucky start. The potential of `sports` was suppressed. 
+Take a look at the following demo. In this run, the agent had an unlucky start with `sports` as users didn't click the ad. As a result, the agent exploited `holidays`. While `sports` was explored, the occasional exploration wasn't enough to make up for the unlucky start. The potential of `sports` was unrevealed.
 
 <img src="https://user-images.githubusercontent.com/51439829/200084414-6511572e-d61b-47c6-b7fc-a1a7a85b2783.gif" width="400">
 
