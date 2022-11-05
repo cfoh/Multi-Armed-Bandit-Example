@@ -19,7 +19,7 @@ Chapter 1: Simple MAB
   <img src="https://user-images.githubusercontent.com/51439829/197750117-97e50e9b-7fc0-4a16-ab77-fb1ddc8434c4.gif" width="400">
 </td>
 <tr><td colspan="2">
-The above demo shows how the ML agent offers advertisements. Users prefer `sports`, with 40% chance to click. The ML agent initially exploited `cars` as it was receiving good click rate. As the agent explored more on `sports`, its click rate improved and became the best. The agent then continued to exploit `sports` with occasion exploration to other ads..
+The above demo shows how the ML agent offers advertisements. Users prefer `sports`, with 40% chance to click. The ML agent initially exploited `cars` as it was receiving good click rate. As the agent explored more on `sports`, its click rate improved and became the best. The agent then continued to exploit `sports` with occasion exploration to other ads.
 <br>
 Press `[F5]` to restart the demo.
 </td>

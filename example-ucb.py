@@ -229,8 +229,8 @@ if __name__ == "__main__":
     num_clicks = 0   # number of clicks collected
 
     ## setup MAB (pick one)
-    mab = MAB()       # simple MAB agent
-    #mab = UCB1_MAB()  # UCB MAB agent
+    #mab = MAB()       # simple MAB agent
+    mab = UCB1_MAB()  # UCB MAB agent
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)
@@ -247,9 +247,12 @@ if __name__ == "__main__":
     print(f"\033[K")
 
     ## print heading for the animation
+    last_ucb = {}
+    for ad_type in Ad.AllArms: last_ucb[ad_type] = 0
     print(f"Testing {mab.description()}\n")
-    print("Ad_type   Reward  Ad_shown_to_users")
-    print("-----------------------------------")
+    print(" Ad      Average  UCB   Ad shown")
+    print("type      reward  part  to users")
+    print("--------------------------------")
 
     ## this is the main loop
     ## the objective of ML agent is to achieve 
@@ -277,12 +280,14 @@ if __name__ == "__main__":
             click_reward = 0
         Historical.report(offered_ad, click_reward)
         mab.update_reward(arm=offered_ad, reward=click_reward)
+        last_ucb[offered_ad] = mab.get_last_ucb()
 
         ## show animation
         for arm in Ad.AllArms:
             r = mab.get_reward(arm)
             len_count_bar = int(50*Historical.get_arm_count(arm)/round)
             print(f"\033[K> {arm:8s} {r:5.2f} ",end="")
+            print(f"{last_ucb[arm]:5.2f} ",end="")
             print("*" if arm==offered_ad else " ",end="")
             print("[%s] %d"%("="*len_count_bar,Historical.get_arm_count(arm)))
         current_click_rate = Historical.get_click_rate()
@@ -333,4 +338,3 @@ if __name__ == "__main__":
     plt.ylabel('Number shown') 
     plt.legend(loc="upper left") 
     plt.show()
-    

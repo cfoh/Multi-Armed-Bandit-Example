@@ -60,11 +60,12 @@ class UCB1_MAB(MAB):
     Upper Confidence Bound (UCB) Multi-armed Bandit implementation.
     '''
 
-    def __init__(self, factor=1.0):
+    def __init__(self, beta=1.0):
         '''Constructor.'''
         super().__init__()
-        self.factor = factor
+        self.beta = beta
         self.overall_total_count = 0
+        self.ucb = 0
 
     def description(self):
         '''Return a string which describes the algorithm.'''
@@ -78,11 +79,13 @@ class UCB1_MAB(MAB):
             self.total_count[arm] = 0
         self.total_count[arm] += 1
         self.overall_total_count += 1
-        ucb_reward = reward + (self.factor
-                        * math.sqrt(2*math.log10(self.total_count[arm])/self.total_count[arm]))
+        self.ucb =  math.sqrt(2*self.beta*math.log10(self.total_count[arm])/self.total_count[arm])
+        ucb_reward = reward + self.ucb
         self.total_rewards[arm] += ucb_reward
         self.average_reward[arm] = self.total_rewards[arm]/self.total_count[arm]
 
+    def get_last_ucb(self):
+        return self.ucb
 
 ######################################################################
 ## Contextual MAB

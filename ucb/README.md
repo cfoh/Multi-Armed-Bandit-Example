@@ -1,1 +1,133 @@
-Coming soon
+# Upper Confidence Bound (UCB) Multi-Armed Bandit (MAB)
+
+<table>
+<tr><td colspan="2"><b>
+Chapter 1: Simple MAB
+</b></td></tr>
+<tr>
+<td valign="top">
+    <ul>
+        <li><a href=#intro>Introduction</a></li>
+        <li><a href=#codes>Implementation</a></li>
+        <li><a href=#outcomes>The Outcomes</a></li>
+    </ul>
+</td>
+<td>
+  Demo:<br>
+  <img src="https://user-images.githubusercontent.com/51439829/197750117-97e50e9b-7fc0-4a16-ab77-fb1ddc8434c4.gif" width="400">
+</td>
+<tr><td colspan="2">
+From the above demo, we can see that the ML agent gives preference to those arms explored less. This is because arms with fewer exploration gives higher UCB. As UCB is part of the reward, those arms will produce higher overall rewards.
+<br>
+Press `[F5]` to restart the demo.
+</td>
+<tr><td colspan="2"><b>
+Back to:<br>
+<ul>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Multi Armed Bandit</a></li>
+</ul>
+More:<br>
+<ul>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 3: Contextual Multi Armed Bandit</a></li>
+</ul>
+</b></td></tr>
+</table>
+
+## Introduction<a name=intro></a>
+
+In Chapter 1, we saw that the ML agent may overlook potential best arm due to unlucky start and prematurely conclude that the arm wasn't worth exploiting. How do we let the agent know some arms actually have good potential and should be exploited even the average reward at that time isn't impressive?
+
+Luckily, we can apply Hoeffding's Inequality to derive confidence interval. Essentially, we establish the probability that the next reward is bounded by some interval (also called radius) after seeing $N$ samples of rewards. If the probability is set very high, we say that we're very confident that the next reward is bounded by the interval, hence called confidence interval. While there are still a very small chance that the next reward may fall outside of the interval, we just think that this is so rare that we can ignore.
+
+Back to the interval, it has an upper bound and a lower bound. We're interested in the upper bound, since this tells the potential of the next reward. Let $\bar{\mu}(a)$ be the empirical average reward of arm $a$ after exploring the arm $N$ times, and $\mu(a)$ be the true average reward of arm $a$. With Hoeffding's Inequality, skipping the detail derivation, we can show that:
+
+$$Pr\left\{|\bar{\mu}(a)-\mu(a)|\le r \right\} \ge 1-\frac{2}{T^{2\alpha}}$$
+
+where 
+
+$$r = \sqrt{\frac{\alpha\beta\log(T)}{N}}$$
+
+and $r$ is the confidence interval radius. The above inequality says that we can expect the next reward to fall within the interval $[\bar{\mu}(a)-r,\bar{\mu}(a)+r]$ with the probability $1-\frac{2}{T^{2\alpha}}$.
+
+With the above, the upper confidence bound of the next reward is thus:
+
+$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{\alpha\beta\log(T)}{N}}.$$
+
+Having the UCB, instead of using the observed average reward $\bar{\mu}(a)$ to decide which arm should be picked, we shall now use the upper bound reward $\text{UCB}(a)$ which includes the observed reward $\bar{\mu}(a)$ and the confidence bound radius $r$. Note that applying the above result requires further treatment and proof, but for discussion simplicity, we shall skip all details and brittlely apply it anyway.
+
+## Implementation<a name=codes></a>
+
+The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$:
+- $\alpha$: It controls the failure where a future reward escapes the bound.
+  This value should be sufficiently small to ensure that the probability of 
+  failure is very small. In many implemenations, we set $\alpha=2$.
+- $\beta$: It is a scaler related to the reward range. 
+  If rewards are within a range $[u,v]$, then $\beta = (v-u)^2$. For the 
+  reward range of $[0,1]$, $\beta=1$.
+- $T$: It is a fixed parameter. Ideally, this quantity should be large to ensure 
+  low failure. We often set it to the number of rounds so that the confidence 
+  that a future reward remains within the bound improves over the course of
+  learning. Consequently, the UCB radius also increases accordingly, more so
+  for those insufficiently explored arms, forcing the ML agent to pick those 
+  arms to reduce their UCB radius.
+
+Assuming our rewards are in the range $[0,1]$, the $\text{UCB}(a)$ is:
+
+$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{2\log(T)}{N}}$$
+
+where again $N$ is the number of times that arm $a$ is pulled, and $T$ is set to the number of arms pulled so far by the agent regardless which.
+
+```python
+class UCB1_MAB(MAB): # it extends class MAB to implement UCB
+
+    def __init__(self, beta=1.0):
+        '''Constructor.'''
+        super().__init__()
+        self.beta = beta
+        self.overall_total_count = 0
+        self.ucb = 0
+
+    def update_reward(self, arm, reward):
+        '''Use this method to update the algorithm which `arm` has been
+        selected and what `reward` has been observed from the environment.'''
+        if arm not in self.total_rewards: 
+            self.total_rewards[arm] = 0
+            self.total_count[arm] = 0
+        self.total_count[arm] += 1
+        self.overall_total_count += 1
+        self.ucb =  math.sqrt(2*self.beta*math.log10(self.total_count[arm])/self.total_count[arm])
+        ucb_reward = reward + self.ucb
+        self.total_rewards[arm] += ucb_reward
+        self.average_reward[arm] = self.total_rewards[arm]/self.total_count[arm]
+
+    def get_last_ucb(self):
+        return self.ucb
+```
+
+## Outcomes<a name=outcomes></a>
+
+The following shows some statistics of the learning. As can be seen, the average rewards for all arms are quite similar. Based on the environment, we know that some ads have low theoretical click rate. But since we use the UCB as the reward, they are given the benefit of doubt with a higher UCB radius, and hence their reward is artificially improved. The UCB radius is shown under `UCB part` in the animation.
+
+```console
+Testing UCB MAB
+
+ Ad      Average  UCB   Ad shown
+type      reward  part  to users
+--------------------------------
+> toys      0.42  0.23  [=] 65
+> cars      0.49  0.19  [==] 114
+> sports    0.52  0.07 *[==================================] 1381
+> holidays  0.51  0.13  [======] 278
+> foods     0.50  0.17  [===] 157
+
+Click rate =  0.36
+Regret = 70.35
+
+Strategy: Epsilon Greedy, epsilon = 0.15
+Number of users = 2000
+Number of clicks = 714
+Click rate = 35.70%
+Theoretical best click rate = 40.00%
+```
+
+Unlike the simple MAB where the learning can be highly influenced by the short-term bias in the environment, UCB can self-correct this bias by offseting the effect using UCB radius. Thus in the simple MAB, the exploration rate must not be too low to avoid being influenced by the short-term bias in the environment, UCB can be operated with a low exploration rate. When all arms are sufficiently explored and all UCB radii are equally low, the best arm will be revealed.
