@@ -102,7 +102,7 @@ The concept of MAB is very simple. In this example, the agent has 5 ads (or `arm
 - During exploration, it randomly picks an ad. After showing the ad, it observes whether the ad banner has been clicked by the user. The outcome is translated to `rewards` and recorded in a `reward table`.
 - During exploitation, it checks the `reward table` to look for the ad that has the highest average reward. It then picks that ad to show to the user.
 
-The average reward of an arm can be calculated by
+The average reward of an arm can be calculated directly by
 
 $Q_{k}(a) = \frac{1}{k}\left(r_1 + r_2 + \cdots + r_k\right)$
 
@@ -110,7 +110,7 @@ where $k$ is the number of times that arm $a$ has been chosen in the past, $r_i$
 
 $Q_{k}(a) = \frac{1}{k} \left((k-1)\cdot Q_{k-1}(a) + r_k\right)$.
 
-The implementation:
+The implementation using the first direct method:
 
 ```Python
 class MAB:
@@ -177,11 +177,9 @@ Theoretical best click rate = 40.00%
 
 The top shows the average reward recorded in the ML agent for each ad, and the number of times that the ad is shown to users. As can be seen, the agent correctly recorded `sports` being the highest reward among all.
 
-Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. The regret at round $T$ is calculated by
+Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. Let $a_t$ be the arm selected at round $t$ and the reward collected by selecting it is $\mu(a_t)$. Let $\mu^*$ be the optimal average reward. Then the gap between the collected and optimal rewards is simply $\mu^*-\mu(a_t)$. After accummulating $T$ rounds of regret, we get
 
-$R(T) = T \mu^* - \sum_{t=1}^{T} \mu(a_t)$
-
-where $\mu^*$ is the optimal average reward, $\mu(a_t)$ is the average rewards of arm $a_t$, and $a_t$ is the arm selected at round $t$. 
+$R(T) = \sum_{t=1}^{T} (\mu^* - \mu(a_t)) = T \mu^* - \sum_{t=1}^{T} \mu(a_t)$.
 
 ## Plots<a name=results></a>
 
