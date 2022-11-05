@@ -177,9 +177,18 @@ Theoretical best click rate = 40.00%
 
 The top part of the printout shows the average reward recorded in the ML agent for each ad, and the number of times that the ad is shown to users. As can be seen, the agent correctly recorded `sports` being the highest reward among all.
 
-Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. Let $a_t$ be the arm selected at round $t$ and the reward collected by selecting it is $\mu(a_t)$. Let $\mu^{\star}$ be the optimal average reward. Then the gap between the collected and optimal rewards is simply $\mu^{\star}-\mu(a_t)$. After accummulating $T$ rounds of regrets, we get
+Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. Let $a_t$ be the arm selected at round $t$ and the reward collected by selecting it is $\mu(a_t)$. Let $\mu^{\star}$ be the optimal average reward. Then the gap between the collected and optimal rewards is simply $\mu^{\star}-\mu(a_t)$. After accumulating $T$ rounds of regrets, we get
 
 $$R(T) = \sum_{t=1}^{T} (\mu^{\star} - \mu(a_t)) = T \mu^{\star} - \sum_{t=1}^{T} \mu(a_t).$$
+
+Imagine the ML agent made the following picks over 5 rounds, knowing $\mu^{\star}=0.4$, then $R(T)$ is:
+
+| $T$                    |    1     |      2     |     3   |     4    |    5   |
+|------------------------|----------|------------|---------|----------|--------|
+| $a_t$                  | `sports` | `holidays` | `foods` | `sports` | `cars` |
+| $\mu(a_t)$             |    0.4   |    0.35    |  0.25   |   0.4    |  0.3   |
+| $\mu^{\star}-\mu(a_t)$ |    0     |    0.05    |  0.15   |   0      |  0.1   |
+| $R(T)$                 |    0     |    0.05    |  0.20   |   0      |  0.30  |
 
 ## Plots<a name=results></a>
 
