@@ -152,7 +152,7 @@ class MAB:
 
 ## Outcomes<a name=outcomes></a>
 
-We measure the effectiveness of our strategy by `click rate`. It is the percentage that a user will click and explore the offered advertisement. By setting epsilon to 0.15, we achieve around 36% of click rate. With the user behaviour, the theoretical optimal click rate we can achieve is 40%. The theoretical optimal click rate assumes that the ML agent somehow knows the user behaviour and will always offer the ad with the highest click rate to users. In this case, the ML agent will always show `sports`.
+We measure the effectiveness of our strategy by `click rate`. It is the percentage that a user will click and explore the offered advertisement. By setting epsilon to 0.15, we achieve around 36% of click rate. If somehow the ML agent knows the user behaviour, it will, of course, always offer `sports` which has the highest click rate among all, and so the theoretical optimal click rate is 40%. Our ML agent achieves 36% which is actually not far from the optimal click rate.
 
 ```console
 Testing Simple MAB
@@ -175,11 +175,11 @@ Click rate = 35.95%
 Theoretical best click rate = 40.00%
 ```
 
-The top shows the average reward recorded in the ML agent for each ad, and the number of times that the ad is shown to users. As can be seen, the agent correctly recorded `sports` being the highest reward among all.
+The top part of the printout shows the average reward recorded in the ML agent for each ad, and the number of times that the ad is shown to users. As can be seen, the agent correctly recorded `sports` being the highest reward among all.
 
 Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. Let $a_t$ be the arm selected at round $t$ and the reward collected by selecting it is $\mu(a_t)$. Let $\mu^{\star}$ be the optimal average reward. Then the gap between the collected and optimal rewards is simply $\mu^{\star}-\mu(a_t)$. After accummulating $T$ rounds of regrets, we get
 
-$$R(T) = \sum_{t=1}^{T} (\mu^{\star} - \mu(a_t)) = T \mu^{\star} - \sum_{t=1}^{T} \mu(a_t)$$
+$$R(T) = \sum_{t=1}^{T} (\mu^{\star} - \mu(a_t)) = T \mu^{\star} - \sum_{t=1}^{T} \mu(a_t).$$
 
 ## Plots<a name=results></a>
 
