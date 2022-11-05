@@ -14,7 +14,7 @@ Chapter 1: Simple MAB
 </td>
 <td>
   Demo:<br>
-  <img src="https://user-images.githubusercontent.com/51439829/197750117-97e50e9b-7fc0-4a16-ab77-fb1ddc8434c4.gif" width="400">
+  <img src="https://user-images.githubusercontent.com/51439829/200144608-7061d319-faa2-49e5-bba3-1112c9be9d99.gif" width="400">
 </td>
 <tr><td colspan="2">
 From the above demo, we can see that the ML agent gives preference to those arms explored less. This is because arms with fewer exploration gives higher UCB. As UCB is part of the reward, those arms will produce higher overall rewards.
