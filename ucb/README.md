@@ -42,7 +42,7 @@ Luckily, we can apply Chernoff-Hoeffding bound to derive confidence interval. Es
 
 Back to the interval, it has an upper bound and a lower bound. We're interested in the upper bound, since this tells the potential of the next reward. Let $\bar{\mu}(a)$ be the empirical average reward of arm $a$ after exploring the arm $N$ times, and $\mu(a)$ be the true average reward of arm $a$. With Hoeffding's Inequality, skipping the detail derivation, we can show that:
 
-$$Pr\{|\bar{\mu}(a)-\mu(a)|\le r \} \ge 1-\frac{2}{T^{2\alpha}}$$
+$$Pr[|\bar{\mu}(a)-\mu(a)|\le r] \ge 1-\frac{2}{T^{2\alpha}}$$
 
 where 
 
