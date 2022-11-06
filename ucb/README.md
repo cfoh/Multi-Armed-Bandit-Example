@@ -46,13 +46,13 @@ $$Pr\{|\bar{\mu}(a)-\mu(a)|\le r \} \ge 1-\frac{2}{T^{2\alpha}}$$
 
 where 
 
-$$r = \sqrt{\frac{\alpha\beta\log(T)}{N}}$$
+$$r = \sqrt{\frac{\alpha\beta\ln(T)}{N}}$$
 
 and $r$ is the confidence interval radius. The above inequality says that we can expect the next reward to fall within the interval $[\bar{\mu}(a)-r,\bar{\mu}(a)+r]$ with the probability $1-\frac{2}{T^{2\alpha}}$.
 
 With the above, the upper confidence bound of the next reward is thus:
 
-$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{\alpha\beta\log(T)}{N}}.$$
+$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{\alpha\beta\ln(T)}{N}}.$$
 
 Having the UCB, instead of using the observed average reward $\bar{\mu}(a)$ to decide which arm should be picked, we shall now use the upper bound reward $\text{UCB}(a)$ which includes the observed reward $\bar{\mu}(a)$ and the confidence bound radius $r$. Note that applying the above result requires further treatment and proof, but for discussion simplicity, we shall skip all details and brittlely apply it anyway.
 
@@ -72,7 +72,7 @@ The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$:
 
 Assuming our rewards are in the range $[0,1]$, the $\text{UCB}(a)$ is:
 
-$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{2\log(T)}{N}}$$
+$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{2\ln(T)}{N}}$$
 
 where again $N$ is the number of times that arm $a$ is pulled, and $T$ is set to the number of arms pulled so far by the agent regardless which.
 
