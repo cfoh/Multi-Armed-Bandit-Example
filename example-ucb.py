@@ -251,7 +251,7 @@ if __name__ == "__main__":
     for ad_type in Ad.AllArms: last_ucb[ad_type] = 0
     print(f"Testing {mab.description()}\n")
     print(" Ad      Average  UCB   Ad shown")
-    print("type      reward  part  to users")
+    print("type      reward radius to users")
     print("--------------------------------")
 
     ## this is the main loop

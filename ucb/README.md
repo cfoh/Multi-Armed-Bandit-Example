@@ -10,6 +10,7 @@ Chapter 1: Simple MAB
         <li><a href=#intro>Introduction</a></li>
         <li><a href=#codes>Implementation</a></li>
         <li><a href=#outcomes>The Outcomes</a></li>
+        <li><a href=#next>What's Next?</a></li>
     </ul>
 </td>
 <td>
@@ -37,7 +38,7 @@ More:<br>
 
 In Chapter 1, we saw that the ML agent may overlook potential best arm due to unlucky start and prematurely conclude that the arm wasn't worth exploiting. How do we let the agent know some arms actually have good potential and should be exploited even the average reward at that time isn't impressive?
 
-Luckily, we can apply Hoeffding's Inequality to derive confidence interval. Essentially, we establish the probability that the next reward is bounded by some interval (also called radius) after seeing $N$ samples of rewards. If the probability is set very high, we say that we're very confident that the next reward is bounded by the interval, hence called confidence interval. While there are still a very small chance that the next reward may fall outside of the interval, we just think that this is so rare that we can ignore.
+Luckily, we can apply Chernoff-Hoeffding bound to derive confidence interval. Essentially, we establish the probability that the next reward is bounded by some interval (also called radius) after seeing $N$ samples of rewards. If the probability is set very high, we say that we're very confident that the next reward is bounded by the interval, hence called confidence interval. While there are still a very small chance that the next reward may fall outside of the interval, we just think that this is so rare that we can ignore.
 
 Back to the interval, it has an upper bound and a lower bound. We're interested in the upper bound, since this tells the potential of the next reward. Let $\bar{\mu}(a)$ be the empirical average reward of arm $a$ after exploring the arm $N$ times, and $\mu(a)$ be the true average reward of arm $a$. With Hoeffding's Inequality, skipping the detail derivation, we can show that:
 
@@ -65,10 +66,8 @@ The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$:
   If rewards are within a range $[u,v]$, then $\beta = (v-u)^2$. For the 
   reward range of $[0,1]$, $\beta=1$.
 - $T$: It is a fixed parameter. Ideally, this quantity should be large to ensure 
-  low failure. We often set it to the number of rounds so that the confidence 
-  that a future reward remains within the bound improves over the course of
-  learning. Consequently, the UCB radius also increases accordingly, more so
-  for those insufficiently explored arms, forcing the ML agent to pick those 
+  low failure. We often set it to the number of rounds. 
+  Consequently, the UCB radius also increases accordingly, more so for those insufficiently explored arms, forcing the ML agent to pick those 
   arms to reduce their UCB radius.
 
 Assuming our rewards are in the range $[0,1]$, the $\text{UCB}(a)$ is:
@@ -95,7 +94,7 @@ class UCB1_MAB(MAB): # it extends class MAB to implement UCB
             self.total_count[arm] = 0
         self.total_count[arm] += 1
         self.overall_total_count += 1
-        self.ucb =  math.sqrt(2*self.beta*math.log10(self.total_count[arm])/self.total_count[arm])
+        self.ucb =  math.sqrt(2*self.beta*math.log(self.total_count[arm])/self.total_count[arm])
         ucb_reward = reward + self.ucb
         self.total_rewards[arm] += ucb_reward
         self.average_reward[arm] = self.total_rewards[arm]/self.total_count[arm]
@@ -106,28 +105,34 @@ class UCB1_MAB(MAB): # it extends class MAB to implement UCB
 
 ## Outcomes<a name=outcomes></a>
 
-The following shows some statistics of the learning. As can be seen, the average rewards for all arms are quite similar. Based on the environment, we know that some ads have low theoretical click rate. But since we use the UCB as the reward, they are given the benefit of doubt with a higher UCB radius, and hence their reward is artificially improved. The UCB radius is shown under `UCB part` in the animation.
+The following shows some statistics of the learning. As can be seen, the average rewards for all arms are quite similar. Based on the environment, we know that some ads have low theoretical click rate. But since we use the UCB as the reward, they are given the benefit of doubt with a higher UCB radius, and hence their reward is artificially improved. The UCB radius is shown under `UCB raduis` in the animation.
 
 ```console
 Testing UCB MAB
 
  Ad      Average  UCB   Ad shown
-type      reward  part  to users
+type      reward radius to users
 --------------------------------
-> toys      0.42  0.23  [=] 65
-> cars      0.49  0.19  [==] 114
-> sports    0.52  0.07 *[==================================] 1381
-> holidays  0.51  0.13  [======] 278
-> foods     0.50  0.17  [===] 157
+> toys      0.55  0.31  [==] 96
+> cars      0.61  0.18  [=========] 365
+> sports    0.61  0.12 *[=======================] 941
+> holidays  0.61  0.17  [==========] 419
+> foods     0.60  0.24  [====] 174
 
-Click rate =  0.36
-Regret = 70.35
+Click rate =  0.35
+Regret = 114.35
 
 Strategy: Epsilon Greedy, epsilon = 0.15
 Number of users = 2000
-Number of clicks = 714
-Click rate = 35.70%
+Number of clicks = 709
+Click rate = 35.45%
 Theoretical best click rate = 40.00%
 ```
 
 Unlike the simple MAB where the learning can be highly influenced by the short-term bias in the environment, UCB can self-correct this bias by offseting the effect using UCB radius. Thus in the simple MAB, the exploration rate must not be too low to avoid being influenced by the short-term bias in the environment, UCB can be operated with a low exploration rate. When all arms are sufficiently explored and all UCB radii are equally low, the best arm will be revealed.
+
+## What's Next?<a name=next></a>
+
+In the previous chapter, we introduce MAB and demonstrated its operation using a primitive MAB. This chapter discusses the classical UCB (i.e. UCB1) which aims to avoid missing potential good arms due to short-term bias in the environment. 
+
+There are many other MAB variants apart from the primitive MAB and UCB1. Other commonly discussed techniques include UCB2, UCB1-Tuned, Thompson Sampling, Contextual Bandits and LinUCB, etc.

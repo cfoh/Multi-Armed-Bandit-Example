@@ -79,7 +79,7 @@ class UCB1_MAB(MAB):
             self.total_count[arm] = 0
         self.total_count[arm] += 1
         self.overall_total_count += 1
-        self.ucb =  math.sqrt(2*self.beta*math.log10(self.total_count[arm])/self.total_count[arm])
+        self.ucb =  math.sqrt(2*self.beta*math.log(self.total_count[arm])/self.total_count[arm])
         ucb_reward = reward + self.ucb
         self.total_rewards[arm] += ucb_reward
         self.average_reward[arm] = self.total_rewards[arm]/self.total_count[arm]
