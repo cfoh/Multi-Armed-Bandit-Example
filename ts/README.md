@@ -15,9 +15,10 @@ Chapter 3: Thompson Sampling Technique
 </td>
 <td>
   Demo:<br>
-  <img src="https://user-images.githubusercontent.com/51439829/200187042-50ea8da6-3675-4d83-82af-e6e725785985.gif" width="400">
+  <img src="https://user-images.githubusercontent.com/51439829/200311722-19f95e88-9583-44b4-aa54-fb9d72c69e1f.gif" width="400">
 </td>
 <tr><td colspan="2">
+
 In the demo, the ML agent attempts to estimate the distribution of each arm based on observed rewards. During exploitation, a random sample is drawn from each distribution and the agent exploits the arm that produced the best sample among all. The `Last drawn` column shows the value sampled from each arm.
 <br>
 Press `[F5]` to restart the demo.
@@ -143,7 +144,7 @@ Theoretical best click rate = 40.00%
 
 We can also visualize the evolution of the estimated reward distribution. The following animation illustrates how the estimated reward distribution is refined over the course of learning.
 
-
+![beta_distributions](https://user-images.githubusercontent.com/51439829/200311875-ffd3d50f-b36c-441c-9281-d8408a7ea5df.gif)
 
 ## What's Next?<a name=next></a>
 
