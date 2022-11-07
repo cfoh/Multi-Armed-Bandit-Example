@@ -193,7 +193,7 @@ Imagine the ML agent made the following picks over 5 rounds, knowing $\mu^{\star
 
 ## Plots<a name=results></a>
 
-Here we plot the click rate evolves over the time below.
+Here we plot the click rate evolving over the time below.
 
 ![mab-click-rate](https://user-images.githubusercontent.com/51439829/200084339-512843fa-633d-46c6-949e-07b9cc3b2fce.png)
 
