@@ -27,7 +27,8 @@ Press `[F5]` to restart the demo.
 More:<br>
 <ul>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Multi Armed Bandit</a></li>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 3: Contextual Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 3: Thompson Sampling Technique</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Contextual Multi Armed Bandit</a></li>
 </ul>
 </b></td></tr>
 </table>

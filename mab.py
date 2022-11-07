@@ -3,6 +3,7 @@
 
 import operator
 import math
+import random
 
 ######################################################################
 ## Multi-Armed Bandit 
@@ -86,6 +87,68 @@ class UCB1_MAB(MAB):
 
     def get_last_ucb(self):
         return self.ucb
+
+
+######################################################################
+## Thompson Sampling Technique
+######################################################################
+class TS:
+    '''
+    Multi-armed Bandit with Thompson Sampling technique.
+    '''
+
+    def __init__(self):
+        '''Constructor.'''
+        self.total_count = {}
+        self.alpha = {}
+        self.beta = {}
+        self.last_drawn = {}
+
+    def description(self) -> str:
+        '''Return a string which describes the algorithm.'''
+        return "Multi-armed Bandit with Thompson Sampling technique"
+
+    def update_reward(self, arm, reward):
+        '''Use this method to update the algorithm which `arm` has been
+        selected and what `reward` (must be either 0 or 1) has been observed 
+        from the environment.'''
+        if arm not in self.total_count: # new arm?
+            self.alpha[arm] = 1
+            self.beta[arm] = 1
+            self.total_count[arm] = 0
+            self.last_drawn[arm] = 0
+        self.total_count[arm] += 1
+        self.alpha[arm] += reward
+        self.beta[arm]  += 1-reward
+
+    def get_reward(self, arm):
+        '''Get the reward for a particular `arm`. 
+        This is $\frac{\alpha-1}{(\alpha-1)+(\beta-1)}$.'''
+        if arm not in self.total_count: return 0
+        return (self.alpha[arm]-1) / (self.alpha[arm]-1+self.beta[arm]-1)
+
+    def get_arm_count(self, arm):
+        '''Return how many times have this `arm` been selected.'''
+        if arm not in self.total_count: return 0
+        return self.total_count[arm]
+
+    def get_best_arm(self):
+        '''Return a tuple (arm,reward) representing the best arm and
+        the corresponding average reward. If this arm has not been 
+        seen by the algorithm, it simply returns (None,None).'''
+        best_arm = { "arm":None, "value":0.0 }
+        for arm in self.total_count:
+            self.last_drawn[arm] = random.betavariate(self.alpha[arm],self.beta[arm])
+            if self.last_drawn[arm]>=best_arm["value"]:
+                best_arm["arm"] = arm
+                best_arm["value"] = self.last_drawn[arm]
+        if best_arm["arm"] is None: 
+            return (None,None)
+        return (best_arm["arm"],best_arm["value"])
+
+    def get_last_drawn_value(self, arm):
+        if arm not in self.last_drawn: return 0
+        return self.last_drawn[arm]
 
 ######################################################################
 ## Contextual MAB

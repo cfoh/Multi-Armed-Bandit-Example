@@ -2,7 +2,7 @@
 
 <table>
 <tr><td colspan="2"><b>
-Chapter 1: Simple MAB
+Chapter 2: Upper Confidence Bound
 </b></td></tr>
 <tr>
 <td valign="top">
@@ -29,7 +29,8 @@ Back to:<br>
 </ul>
 More:<br>
 <ul>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 3: Contextual Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 3: Thompson Sampling Technique</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 4: Contextual Multi Armed Bandit</a></li>
 </ul>
 </b></td></tr>
 </table>
@@ -40,7 +41,7 @@ In Chapter 1, we saw that the ML agent may overlook potential best arm due to un
 
 Luckily, we can apply Chernoff-Hoeffding bound to derive confidence interval. Essentially, we establish the probability that the next reward is bounded by some interval (also called radius) after seeing $N$ samples of rewards. If the probability is set very high, we say that we're very confident that the next reward is bounded by the interval, hence called confidence interval. While there are still a very small chance that the next reward may fall outside of the interval, we just think that this is so rare that we can ignore.
 
-Back to the interval, it has an upper bound and a lower bound. We're interested in the upper bound, since this tells the potential of the next reward. Let $\bar{\mu}(a)$ be the empirical average reward of arm $a$ after exploring the arm $N$ times, and $\mu(a)$ be the true average reward of arm $a$. With Hoeffding's Inequality, skipping the detail derivation, we can show that:
+Back to the interval, it has an upper bound and a lower bound. We're interested in the upper bound, since this tells the potential of the next reward. Let $\bar{\mu}(a)$ be the empirical average reward of arm $a$ after exploring the arm $N$ times, and $\mu(a)$ be the true average reward of arm $a$. Skipping all detail derivations, we can show that:
 
 $$Pr[|\bar{\mu}(a)-\mu(a)|\le r] \ge 1-\frac{2}{T^{2\alpha}}$$
 
@@ -54,11 +55,11 @@ With the above, the upper confidence bound of the next reward is thus:
 
 $$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{\alpha\beta\ln(T)}{N}}.$$
 
-Having the UCB, instead of using the observed average reward $\bar{\mu}(a)$ to decide which arm should be picked, we shall now use the upper bound reward $\text{UCB}(a)$ which includes the observed reward $\bar{\mu}(a)$ and the confidence bound radius $r$. Note that applying the above result requires further treatment and proof, but for discussion simplicity, we shall skip all details and brittlely apply it anyway.
+Having the UCB, instead of using the observed average reward $\bar{\mu}(a)$ to decide which arm should be picked, we shall now use the upper bound reward $\text{UCB}(a)$ which includes the observed reward $\bar{\mu}(a)$ and the confidence bound radius $r$. Note that applying the above result requires further [treatment and proof](https://people.eecs.berkeley.edu/~russell/classes/cs294/s11/readings/Auer+al:2002.pdf), we will not discuss them here.
 
 ## Implementation<a name=codes></a>
 
-The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$:
+The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$. The classical UCB (or UCB1) has the following settings:
 - $\alpha$: It controls the failure where a future reward escapes the bound.
   This value should be sufficiently small to ensure that the probability of 
   failure is very small. In many implemenations, we set $\alpha=2$.
@@ -133,6 +134,6 @@ Unlike the simple MAB where the learning can be highly influenced by the short-t
 
 ## What's Next?<a name=next></a>
 
-In the previous chapter, we introduce MAB and demonstrated its operation using a primitive MAB. This chapter discusses the classical UCB (i.e. UCB1) which aims to avoid missing potential good arms due to short-term bias in the environment. 
+In the previous chapter, we introduce MAB and demonstrated its operation using a primitive MAB. This chapter discusses the classical UCB which aims to avoid missing potential good arms due to short-term bias in the environment. 
 
-There are many other MAB variants apart from the primitive MAB and UCB1. Other commonly discussed techniques include UCB2, UCB1-Tuned, Thompson Sampling, Contextual Bandits and LinUCB, etc.
+Imagine if the ML agent can estimate the distribution of each arm rather than just an upper bound, it will have much more information to make better decision. Thompson Sampling technique provides a means to estimate the distribution of an arm by continuingly shaping the estimated distribution using observed rewards. How? This will be our topic in the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts).

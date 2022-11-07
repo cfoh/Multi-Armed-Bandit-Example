@@ -65,9 +65,13 @@ Our setup is:
 from math import ceil
 import random
 import time
-import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.animation import FuncAnimation,PillowWriter
 
-from mab import MAB, UCB1_MAB, TS
+import matplotlib.pyplot as plt
+from scipy.stats import beta
+
+from mab import TS
 
 ######################################################################
 ## User behaviour matrix for the environment (static class)
@@ -132,15 +136,27 @@ class Historical:
     click_selections = [] # store the history of click selections
     click_outcomes = []   # store the history of click outcomes
     count_selection = {}  # store the total count of each arm selection
+    alpha_series = {}
+    beta_series = {}
 
     @staticmethod
     def report(arm,outcome):
         Historical.click_outcomes.append(outcome)
         Historical.click_selections.append(arm)
-        if arm not in Historical.count_selection:
+        if arm not in Historical.count_selection: # if new arm?
             Historical.count_selection[arm] = 0
-        else:
-            Historical.count_selection[arm] += 1
+        Historical.count_selection[arm] += 1
+        for a in Ad.AllArms:
+            if a not in Historical.alpha_series:   # if new arm?
+                Historical.alpha_series[a] = [1]   # then initialize the lists
+                Historical.beta_series[a] = [1]
+            alpha = Historical.alpha_series[a][-1]
+            beta = Historical.beta_series[a][-1]
+            if a==arm:
+                alpha += outcome
+                beta  += 1-outcome
+            Historical.alpha_series[a].append(alpha)
+            Historical.beta_series[a].append(beta)
 
     @staticmethod
     def get_arm_count(arm):
@@ -177,6 +193,8 @@ class Historical:
         for arm in Ad.AllArms:
             arm_selection_series[arm] = arm_selection_series[arm][1:]
         return arm_selection_series
+
+
 
 ######################################################################
 ## Client profile
@@ -229,9 +247,9 @@ if __name__ == "__main__":
     num_clicks = 0   # number of clicks collected
 
     ## setup MAB (pick one)
-    mab = MAB()       # simple MAB agent
+    #mab = MAB()       # simple MAB agent
     #mab = UCB1_MAB()  # UCB MAB agent
-    #mab = TS()       # Thomspon Sampling
+    mab = TS()         # Thomspon Sampling
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)
@@ -248,9 +266,12 @@ if __name__ == "__main__":
     print(f"\033[K")
 
     ## print heading for the animation
+    last_ucb = {}
+    for ad_type in Ad.AllArms: last_ucb[ad_type] = 0
     print(f"Testing {mab.description()}\n")
-    print("Ad_type   Reward  Ad_shown_to_users")
-    print("-----------------------------------")
+    print(" Ad      Average  Last   Ad shown")
+    print("type      reward  drawn  to users")
+    print("-------------------------------")
 
     ## this is the main loop
     ## the objective of ML agent is to achieve 
@@ -279,11 +300,14 @@ if __name__ == "__main__":
         Historical.report(offered_ad, click_reward)
         mab.update_reward(arm=offered_ad, reward=click_reward)
 
+        Theoretical.regret(round)
+
         ## show animation
         for arm in Ad.AllArms:
             r = mab.get_reward(arm)
             len_count_bar = int(50*Historical.get_arm_count(arm)/round)
-            print(f"\033[K> {arm:8s} {r:5.2f} ",end="")
+            print(f"\033[K> {arm:8s} {r:5.2f}  ",end="")
+            print(f"{mab.get_last_drawn_value(arm):3.2f}  ",end="")
             print("*" if arm==offered_ad else " ",end="")
             print("[%s] %d"%("="*len_count_bar,Historical.get_arm_count(arm)))
         current_click_rate = Historical.get_click_rate()
@@ -303,35 +327,20 @@ if __name__ == "__main__":
     print(f"Click rate = {100*average_click_rate:1.2f}%")
     print(f"Theoretical best click rate = {100*best_click_rate:4.2f}%")
 
-    ## plot the click rate & regret
-    plt.figure(1)
-    click_series = Historical.get_click_rate_series()
-    plt.plot(range(len(click_series)), click_series, '-')
-    plt.xlabel("Number of ads offered")
-    plt.ylabel("Click Rate")
-
-    plt.figure(2)
-    regret_series = Theoretical.get_regret_series()
-    plt.plot(range(len(regret_series)), regret_series, '-')
-    plt.xlabel("Number of ads offered")
-    plt.ylabel("Regret")
-
-    ## plot the arm selections
-    plt.figure(3)
-    arm_selection_series = Historical.get_arm_selection_series()
-    ad_type = Ad.AllArms.copy()
-    ad_color = {0:"green",1:"blue",2:"pink",3:"yellow",4:"red"}
-    for i in ad_color:
-        plt.plot([],[],color=ad_color[i], label=ad_type[i], linewidth=5)
-    plt.stackplot(range(len(arm_selection_series[ad_type[0]])),
-                  arm_selection_series[ad_type[0]],
-                  arm_selection_series[ad_type[1]], 
-                  arm_selection_series[ad_type[2]], 
-                  arm_selection_series[ad_type[3]], 
-                  arm_selection_series[ad_type[4]], 
-                  colors=list(ad_color.values()))
-    plt.xlabel("Number of ads offered")
-    plt.ylabel('Number shown') 
-    plt.legend(loc="upper left") 
-    plt.show()
-    
+    ## create animated beta distributions
+    fig,ax = plt.subplots(1,1)
+    fig.set_size_inches(5,5)
+    ad_line_color = {"toys":"g-","cars":"b-","sports":"m-","holidays":"y-","foods":"r-"}
+    def animate(i):
+        i *= 5 # step
+        ax.clear()
+        ax.set_ylim([0,18])
+        ax.text(0, 17, f"round = {i}")
+        x = np.linspace(0, 1.0, 100)
+        for arm in Ad.AllArms:
+            y = beta.pdf(x, Historical.alpha_series[arm][i], Historical.beta_series[arm][i])
+            ax.plot(x, y, ad_line_color[arm], label=arm+f" ({Ad.Type[arm]:3.2f})")
+        ax.legend(loc="upper right") 
+    ani = FuncAnimation(fig, animate, frames=150, interval=20, repeat=False)
+    plt.close()
+    ani.save("beta_distributions.gif", dpi=300, writer=PillowWriter(fps=10))

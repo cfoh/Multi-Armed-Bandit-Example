@@ -67,7 +67,7 @@ import random
 import time
 import matplotlib.pyplot as plt
 
-from mab import MAB, UCB1_MAB
+from mab import MAB, UCB1_MAB, TS
 
 ######################################################################
 ## User behaviour matrix for the environment (static class)
@@ -231,6 +231,7 @@ if __name__ == "__main__":
     ## setup MAB (pick one)
     #mab = MAB()       # simple MAB agent
     mab = UCB1_MAB()  # UCB MAB agent
+    #mab = TS()        # Thomspon Sampling
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)
