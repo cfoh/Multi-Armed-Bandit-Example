@@ -144,12 +144,12 @@ Theoretical best click rate = 40.00%
 
 We can also visualize the evolution of the estimated reward distribution. The following animation illustrates how the estimated reward distribution is refined over the course of learning.
 
-![beta_distributions](https://user-images.githubusercontent.com/51439829/200311875-ffd3d50f-b36c-441c-9281-d8408a7ea5df.gif)
+<img src="https://user-images.githubusercontent.com/51439829/200311875-ffd3d50f-b36c-441c-9281-d8408a7ea5df.gif" width="400"/>
 
 ## What's Next?<a name=next></a>
 
 In this chapter, we demonstrated using Thompson Sampling technique to improve decision making in MAB. We focused on our example of digital advertizing where the outcome follows a Bernoulli ditribution, and we used Beta distribution as our prior with $\alpha$ and $\beta$ being the hyperparameters to update.
 
-Your problem may be different where the outcome may follow a different distribution. Then you need to find an appripriate prior, identify the hyperparameters and the method to update the prior. You may check [this wikipedia article](https://en.wikipedia.org/wiki/Conjugate_prior) which provides a table of conjugate distributions showing for a particular likelihood function, which prior should be used, what are their hyperparameters, and how to update the prior to produce the posterior distribution.
+Your problem may be different where the outcome may follow a different distribution. Then you need to find an appripriate prior, identify the hyperparameters and the method to update the prior. You may check this [wikipedia article](https://en.wikipedia.org/wiki/Conjugate_prior) which provides a table of conjugate distributions showing that for a particular likelihood function, which prior should be used, what are the involved hyperparameters, and how to update the prior to produce the posterior distribution.
 
 There are many other MAB variants, each with its own pros and cons. Some commonly discussed techniques are UCB2, UCB1-Tuned, Contextual Bandits and LinUCB, etc. It is impossible to cover all, you are encource to explore them to expand your knowledge.
