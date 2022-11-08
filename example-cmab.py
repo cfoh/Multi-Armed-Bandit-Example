@@ -29,8 +29,8 @@ We shall use Contextual MAB to dea with this problem.
 For the sake of explanation, we introduce some simplified assumptions. 
 - We use a small set of discrete contexts. 
 - The contexts are independent of each other, meaning that 
-  there is no relationship between the click rates in one age 
-  group and another. 
+  there is no relationship between the user behaviour any pair of 
+  age groups. 
 - When a user visits our website, we're able to somehow obtain the 
   user profile (or the context). 
   
@@ -106,10 +106,10 @@ class Theoretical:
 
 
 ######################################################################
-## MAB result keeper 
+## MAB empirical result keeper 
 ######################################################################
 
-class MABResult:
+class Empirical:
 
     def __init__(self):
         ## data series
@@ -228,8 +228,8 @@ if __name__ == "__main__":
     ## we run both agents together
     mab  = MAB()      # simple MAB agent
     cmab = CMAB()     # CMAB agent
-    mab_out = MABResult()
-    cmab_out = MABResult()
+    mab_out = Empirical()
+    cmab_out = Empirical()
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)
@@ -248,6 +248,7 @@ if __name__ == "__main__":
     ## this is the main loop
     ## the objective of ML agent is to achieve 
     ## as many clicks as possible through learning
+    print(f"Testing {cmab.description()}\n")
     for round in range(num_users):
 
         ## a user has visited the website
@@ -290,7 +291,7 @@ if __name__ == "__main__":
         mab_no_regret = int(60*mab_out.get_hit_count()/(round+1))
         cmab_no_regret = int(60*cmab_out.get_hit_count()/(round+1))
         print(f"\033[KNumber of visitors = {round+1}")
-        print(f"\033[KOptimal arm played:")
+        print(f"\033[KNumber of optimal arms played:")
         print(f"\033[K> MAB  [%s] %d"%("="*mab_no_regret,mab_out.get_hit_count()))
         print(f"\033[K> CMAB [%s] %d"%("="*cmab_no_regret,cmab_out.get_hit_count()))
         print("\033[5A")

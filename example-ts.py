@@ -58,7 +58,7 @@ class Theoretical:
         optimal = Theoretical.optimal_click_rate() * t  # optimal click rate
         experienced = 0                             # experienced click rate
         for arm in Ad.AllArms:
-            experienced += Theoretical.expected_click_rate(arm) * Historical.get_arm_count(arm)
+            experienced += Theoretical.expected_click_rate(arm) * Empirical.get_arm_count(arm)
         regret_at_t = optimal - experienced
         Theoretical.regret_series.append(regret_at_t)
         return regret_at_t
@@ -71,7 +71,7 @@ class Theoretical:
 ## Historical result keeper (static class)
 ######################################################################
 
-class Historical:
+class Empirical:
 
     click_selections = [] # store the history of click selections
     click_outcomes = []   # store the history of click outcomes
@@ -81,39 +81,39 @@ class Historical:
 
     @staticmethod
     def report(arm,outcome):
-        Historical.click_outcomes.append(outcome)
-        Historical.click_selections.append(arm)
-        if arm not in Historical.count_selection: # if new arm?
-            Historical.count_selection[arm] = 0
-        Historical.count_selection[arm] += 1
+        Empirical.click_outcomes.append(outcome)
+        Empirical.click_selections.append(arm)
+        if arm not in Empirical.count_selection: # if new arm?
+            Empirical.count_selection[arm] = 0
+        Empirical.count_selection[arm] += 1
         for a in Ad.AllArms:
-            if a not in Historical.alpha_series:   # if new arm?
-                Historical.alpha_series[a] = [1]   # then initialize the lists
-                Historical.beta_series[a] = [1]
-            alpha = Historical.alpha_series[a][-1]
-            beta = Historical.beta_series[a][-1]
+            if a not in Empirical.alpha_series:   # if new arm?
+                Empirical.alpha_series[a] = [1]   # then initialize the lists
+                Empirical.beta_series[a] = [1]
+            alpha = Empirical.alpha_series[a][-1]
+            beta = Empirical.beta_series[a][-1]
             if a==arm:
                 alpha += outcome
                 beta  += 1-outcome
-            Historical.alpha_series[a].append(alpha)
-            Historical.beta_series[a].append(beta)
+            Empirical.alpha_series[a].append(alpha)
+            Empirical.beta_series[a].append(beta)
 
     @staticmethod
     def get_arm_count(arm):
-        if arm not in Historical.count_selection:
+        if arm not in Empirical.count_selection:
             return 0
-        return Historical.count_selection[arm]
+        return Empirical.count_selection[arm]
 
     @staticmethod
     def get_click_rate():
-        return sum(Historical.click_outcomes)/len(Historical.click_outcomes)
+        return sum(Empirical.click_outcomes)/len(Empirical.click_outcomes)
 
     @staticmethod
     def get_click_rate_series():
         click_rate_series = []
         click_rate_total = 0
         click_rate_size = 0
-        for click in Historical.click_outcomes:
+        for click in Empirical.click_outcomes:
             click_rate_total += 1 if click else 0
             click_rate_size += 1
             click_rate_series.append(click_rate_total/click_rate_size)
@@ -124,7 +124,7 @@ class Historical:
         arm_selection_series = {}
         for arm in Ad.AllArms:
             arm_selection_series[arm] = [0]
-        for selected_arm in Historical.click_selections:
+        for selected_arm in Empirical.click_selections:
             for arm in Ad.AllArms:
                 if arm==selected_arm:
                     arm_selection_series[arm].append(arm_selection_series[arm][-1]+1)
@@ -234,7 +234,7 @@ if __name__ == "__main__":
             num_clicks += 1
         else:
             click_reward = 0
-        Historical.report(offered_ad, click_reward)
+        Empirical.report(offered_ad, click_reward)
         mab.update_reward(arm=offered_ad, reward=click_reward)
 
         Theoretical.regret(round)
@@ -242,12 +242,12 @@ if __name__ == "__main__":
         ## show animation
         for arm in Ad.AllArms:
             r = mab.get_reward(arm)
-            len_count_bar = int(50*Historical.get_arm_count(arm)/round)
+            len_count_bar = int(50*Empirical.get_arm_count(arm)/round)
             print(f"\033[K> {arm:8s} {r:5.2f}  ",end="")
             print(f"{mab.get_last_drawn_value(arm):3.2f}  ",end="")
             print("*" if arm==offered_ad else " ",end="")
-            print("[%s] %d"%("="*len_count_bar,Historical.get_arm_count(arm)))
-        current_click_rate = Historical.get_click_rate()
+            print("[%s] %d"%("="*len_count_bar,Empirical.get_arm_count(arm)))
+        current_click_rate = Empirical.get_click_rate()
         current_regret = Theoretical.regret(round)
         print(f"\nClick rate = {current_click_rate:5.2f}")
         print(f"Regret = {current_regret:5.2f}")
@@ -275,7 +275,7 @@ if __name__ == "__main__":
         ax.text(0, 17, f"round = {i}")
         x = np.linspace(0, 1.0, 100)
         for arm in Ad.AllArms:
-            y = beta.pdf(x, Historical.alpha_series[arm][i], Historical.beta_series[arm][i])
+            y = beta.pdf(x, Empirical.alpha_series[arm][i], Empirical.beta_series[arm][i])
             ax.plot(x, y, ad_line_color[arm], label=arm+f" ({Ad.Type[arm]:3.2f})")
         ax.legend(loc="upper right") 
     ani = FuncAnimation(fig, animate, frames=150, interval=20, repeat=False)

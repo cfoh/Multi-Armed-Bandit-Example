@@ -54,7 +54,7 @@ class Theoretical:
         optimal = Theoretical.optimal_click_rate() * t  # optimal click rate
         experienced = 0                             # experienced click rate
         for arm in Ad.AllArms:
-            experienced += Theoretical.expected_click_rate(arm) * Historical.get_arm_count(arm)
+            experienced += Theoretical.expected_click_rate(arm) * Empirical.get_arm_count(arm)
         regret_at_t = optimal - experienced
         Theoretical.regret_series.append(regret_at_t)
         return regret_at_t
@@ -67,7 +67,7 @@ class Theoretical:
 ## Historical result keeper (static class)
 ######################################################################
 
-class Historical:
+class Empirical:
 
     click_selections = [] # store the history of click selections
     click_outcomes = []   # store the history of click outcomes
@@ -75,29 +75,29 @@ class Historical:
 
     @staticmethod
     def report(arm,outcome):
-        Historical.click_outcomes.append(outcome)
-        Historical.click_selections.append(arm)
-        if arm not in Historical.count_selection:
-            Historical.count_selection[arm] = 0
+        Empirical.click_outcomes.append(outcome)
+        Empirical.click_selections.append(arm)
+        if arm not in Empirical.count_selection:
+            Empirical.count_selection[arm] = 0
         else:
-            Historical.count_selection[arm] += 1
+            Empirical.count_selection[arm] += 1
 
     @staticmethod
     def get_arm_count(arm):
-        if arm not in Historical.count_selection:
+        if arm not in Empirical.count_selection:
             return 0
-        return Historical.count_selection[arm]
+        return Empirical.count_selection[arm]
 
     @staticmethod
     def get_click_rate():
-        return sum(Historical.click_outcomes)/len(Historical.click_outcomes)
+        return sum(Empirical.click_outcomes)/len(Empirical.click_outcomes)
 
     @staticmethod
     def get_click_rate_series():
         click_rate_series = []
         click_rate_total = 0
         click_rate_size = 0
-        for click in Historical.click_outcomes:
+        for click in Empirical.click_outcomes:
             click_rate_total += 1 if click else 0
             click_rate_size += 1
             click_rate_series.append(click_rate_total/click_rate_size)
@@ -108,7 +108,7 @@ class Historical:
         arm_selection_series = {}
         for arm in Ad.AllArms:
             arm_selection_series[arm] = [0]
-        for selected_arm in Historical.click_selections:
+        for selected_arm in Empirical.click_selections:
             for arm in Ad.AllArms:
                 if arm==selected_arm:
                     arm_selection_series[arm].append(arm_selection_series[arm][-1]+1)
@@ -217,19 +217,19 @@ if __name__ == "__main__":
             num_clicks += 1
         else:
             click_reward = 0
-        Historical.report(offered_ad, click_reward)
+        Empirical.report(offered_ad, click_reward)
         mab.update_reward(arm=offered_ad, reward=click_reward)
         last_ucb[offered_ad] = mab.get_last_ucb()
 
         ## show animation
         for arm in Ad.AllArms:
             r = mab.get_reward(arm)
-            len_count_bar = int(50*Historical.get_arm_count(arm)/round)
+            len_count_bar = int(50*Empirical.get_arm_count(arm)/round)
             print(f"\033[K> {arm:8s} {r:5.2f} ",end="")
             print(f"{last_ucb[arm]:5.2f} ",end="")
             print("*" if arm==offered_ad else " ",end="")
-            print("[%s] %d"%("="*len_count_bar,Historical.get_arm_count(arm)))
-        current_click_rate = Historical.get_click_rate()
+            print("[%s] %d"%("="*len_count_bar,Empirical.get_arm_count(arm)))
+        current_click_rate = Empirical.get_click_rate()
         current_regret = Theoretical.regret(round)
         print(f"\nClick rate = {current_click_rate:5.2f}")
         print(f"Regret = {current_regret:5.2f}")
@@ -248,7 +248,7 @@ if __name__ == "__main__":
 
     ## plot the click rate & regret
     plt.figure(1)
-    click_series = Historical.get_click_rate_series()
+    click_series = Empirical.get_click_rate_series()
     plt.plot(range(len(click_series)), click_series, '-')
     plt.xlabel("Number of ads offered")
     plt.ylabel("Click Rate")
@@ -261,7 +261,7 @@ if __name__ == "__main__":
 
     ## plot the arm selections
     plt.figure(3)
-    arm_selection_series = Historical.get_arm_selection_series()
+    arm_selection_series = Empirical.get_arm_selection_series()
     ad_type = Ad.AllArms.copy()
     ad_color = {0:"green",1:"blue",2:"pink",3:"yellow",4:"red"}
     for i in ad_color:
