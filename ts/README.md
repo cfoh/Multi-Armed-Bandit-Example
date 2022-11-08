@@ -43,7 +43,6 @@ To understand Thompson Sampling, we need to describe a few concepts:
   describing the outcome distribution without inspecting any outcome.
 - A posterior distribution $P(\theta|y)$ is an update of the prior after
   inspecting some outcome $y$.
-  some parameter $\theta$ after observing some outcome $y$.
 - The likelihood function $P(y|\theta)$ describes the likelihood of some outcome
   $y$ given the parameter $\theta$.
 
