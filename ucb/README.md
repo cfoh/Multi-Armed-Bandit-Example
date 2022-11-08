@@ -73,9 +73,9 @@ The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$. Th
 
 Assuming our rewards are in the range $[0,1]$, the $\text{UCB}(a)$ is:
 
-$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{2\ln(T)}{N}}$$
+$$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{2\ln(T)}{N_a}}$$
 
-where again $N$ is the number of times that arm $a$ is pulled, and $T$ is set to the number of arms pulled so far by the agent regardless which.
+where $N_a$ is the number of times that arm $a$ is pulled, and $T$ is set to the number of arms pulled so far by the agent regardless which.
 
 ```python
 class UCB1(MAB): # it extends class MAB to implement UCB
