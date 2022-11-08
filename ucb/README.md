@@ -78,7 +78,7 @@ $$\text{UCB}(a) = \bar{\mu}(a) + \sqrt{\frac{2\ln(T)}{N}}$$
 where again $N$ is the number of times that arm $a$ is pulled, and $T$ is set to the number of arms pulled so far by the agent regardless which.
 
 ```python
-class UCB1_MAB(MAB): # it extends class MAB to implement UCB
+class UCB1(MAB): # it extends class MAB to implement UCB
 
     def __init__(self, beta=1.0):
         '''Constructor.'''
