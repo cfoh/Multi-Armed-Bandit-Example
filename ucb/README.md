@@ -63,7 +63,7 @@ The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$. Th
 - $\alpha$: It controls the failure where a future reward escapes the bound.
   This value should be sufficiently small to ensure that the probability of 
   failure is very small. In many implemenations, we set $\alpha=2$.
-- $\beta$: It is a scaler related to the reward range. 
+- $\beta$: It is a scalar related to the reward range. 
   If rewards are within a range $[u,v]$, then $\beta = (v-u)^2$. For the 
   reward range of $[0,1]$, $\beta=1$.
 - $T$: It is a fixed parameter. Ideally, this quantity should be large to ensure 
