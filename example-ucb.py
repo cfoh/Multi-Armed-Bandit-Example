@@ -1,65 +1,5 @@
 '''
-**Digital advertising** is a form of marketing that targets online
-users. A simple example of online marketing is where a website
-embeds a small advertisement banner with the objective that 
-users visiting the website will click the advertisement banner 
-to explore the advertised products or services.
-
-However, different users have different interests, and thus not
-all types of advertisements will attract all users. We need to 
-which type of advertisements is the most clicked by the users
-and thus we can offer other users the same type of advertisements.
-
-In this tutorial, we shall use **Multi-Armed Bandit** (MAB) 
-reinforcement learning (RL) to establish the relationship. MAB
-is an online learning meaning that the machine learning (ML) agent
-learns during the operation. 
-
-In reinforcement learning, the ML agent interacts with the environment 
-to learn the behaviour of the environment and try to find appropriate
-actions that can maximize the rewards. The following diagram illustrates
-the interaction between the ML agent and the environment:
-```
-        +-----------------------+
-        |        Action         |
-        |                       V
-   +---------+           +--------------+
-   |   ML    |           |              |
-   |  Agent  |           | Environment  |
-   +---------+           |              |
-        ^                +--------------+
-        |    State, Reward      |
-        +-----------------------+
-```
-
-We first need to define the behaviour of users. This is the 
-`environment` defining how a user responds to an offered 
-advertisement. The user behaviour is not known to the ML agent,
-and it is the task of the ML agent to learn and establish the
-relationship. Its job is to discover which advertisement is 
-the most attractive to the user.
-
-The behaviour of users are described in the following table. 
-It shows the likelihood of users clicking different types of 
-advertisements.
-
-```
-  The Environment
-+-------------------+---------------+
-|                   |  Probability  |
-| Ad Type           |  of clicking  |
-+-------------------+---------------+
-| Toys & Games      |      10%      |
-| Cars              |      30%      |
-| Sports            |      40%      |
-| Holiday Packages  |      35%      |
-| Foods & Health    |      25%      |
-+-------------------+---------------+
-```
-
-Our setup is:
-- the `arms` are advertisement type to offer
-- the `reward` is 1 if a click is registered, 0 otherwise
+Upper Confidence Bound (UCB) Algorithm.
 '''
 
 from math import ceil
@@ -67,7 +7,7 @@ import random
 import time
 import matplotlib.pyplot as plt
 
-from mab import MAB, UCB1_MAB, TS
+from mab import UCB1
 
 ######################################################################
 ## User behaviour matrix for the environment (static class)
@@ -229,9 +169,7 @@ if __name__ == "__main__":
     num_clicks = 0   # number of clicks collected
 
     ## setup MAB (pick one)
-    #mab = MAB()       # simple MAB agent
-    mab = UCB1_MAB()  # UCB MAB agent
-    #mab = TS()        # Thomspon Sampling
+    mab = UCB1()       # UCB agent
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)

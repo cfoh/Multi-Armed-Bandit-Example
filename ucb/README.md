@@ -1,4 +1,4 @@
-# Upper Confidence Bound (UCB) Multi-Armed Bandit (MAB)
+# Upper Confidence Bound (UCB) Algorithm
 
 <table>
 <tr><td colspan="2"><b>
@@ -22,17 +22,17 @@ From the above demo, we can see that the ML agent gives preference to those arms
 <br>
 Press `[F5]` to restart the demo.
 </td>
-<tr><td colspan="2"><b>
-Back to:<br>
+<tr><td colspan="2">
+<b>Back to:</b><br>
 <ul>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Multi Armed Bandit</a></li>
 </ul>
-More:<br>
+<b>More:</b><br>
 <ul>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 3: Thompson Sampling Technique</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 4: Contextual Multi Armed Bandit</a></li>
 </ul>
-</b></td></tr>
+</td></tr>
 </table>
 
 ## Introduction<a name=intro></a>

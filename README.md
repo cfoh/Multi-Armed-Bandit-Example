@@ -19,18 +19,18 @@ Chapter 1: Simple MAB
   <img src="https://user-images.githubusercontent.com/51439829/200315041-54cde21e-16c1-4350-8973-a6844ef21534.gif" width="400">
 </td>
 <tr><td colspan="2">
-The above demo shows how the ML agent offers advertisements. Users prefer `sports`, with 40% chance to click. The ML agent initially exploited `cars` as it was receiving good click rate. As the agent explored more on `sports`, its click rate improved and became the best. The agent then continued to exploit `sports` with occasion exploration to other ads.
+The above demo shows how the ML agent offers advertisements. Users prefer `sports`, with 40% chance to click. The ML agent initially exploited `cars` as it was receiving good click through rate. As the agent explored more on `sports`, its click through rate improved and became the best. The agent then continued to exploit `sports` with occasion exploration to other ads.
 <br>
 Press `[F5]` to restart the demo.
 </td>
-<tr><td colspan="2"><b>
-More:<br>
+<tr><td colspan="2">
+<b>More:</b><br>
 <ul>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Algorithm</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 3: Thompson Sampling Technique</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Contextual Multi Armed Bandit</a></li>
 </ul>
-</b></td></tr>
+</td></tr>
 </table>
 
 ## Introduction<a name=intro></a>
@@ -153,7 +153,7 @@ class MAB:
 
 ## Outcomes<a name=outcomes></a>
 
-We measure the effectiveness of our strategy by `click through rate` or simply called `click rate`. It is the percentage that a user will click and explore the offered advertisement. By setting epsilon to 0.15, we achieve around 36% of click rate. If somehow the ML agent knows the user behaviour, it will, of course, always offer `sports` which has the highest click rate among all, and so the theoretical optimal click rate is 40%. Our ML agent achieves 36% which is actually not far from the optimal click rate.
+We measure the effectiveness of our strategy by `click through rate` (CTR) or simply called `click rate`. It is the percentage that a user will click and explore the offered advertisement. By setting epsilon to 0.15, we achieve around 36% of click rate. If somehow the ML agent knows the user behaviour, it will, of course, always offer `sports` which has the highest click rate among all, and so the theoretical optimal click rate is 40%. Our ML agent achieves 36% which is actually not far from the optimal click rate.
 
 ```console
 Testing Simple MAB

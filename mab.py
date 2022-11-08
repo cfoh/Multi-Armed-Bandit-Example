@@ -1,4 +1,5 @@
 '''
+Implementation of various Multi-Armed Bandit Algorithms.
 '''
 
 import operator
@@ -6,7 +7,7 @@ import math
 import random
 
 ######################################################################
-## Multi-Armed Bandit 
+## Simple Multi-Armed Bandit 
 ######################################################################
 class MAB:
     '''
@@ -50,15 +51,14 @@ class MAB:
         if len(self.average_reward)==0: 
             return (None,None)
         return max(self.average_reward.items(), key=operator.itemgetter(1))
-
  
 
 ######################################################################
-## Upper Confidence Bound (UCB) Multi-Armed Bandit 
+## Upper Confidence Bound (UCB)
 ######################################################################
-class UCB1_MAB(MAB):
+class UCB1(MAB):
     '''
-    Upper Confidence Bound (UCB) Multi-armed Bandit implementation.
+    Upper Confidence Bound (UCB) implementation.
     '''
 
     def __init__(self, beta=1.0):
@@ -150,12 +150,15 @@ class TS:
         if arm not in self.last_drawn: return 0
         return self.last_drawn[arm]
 
+
 ######################################################################
-## Contextual MAB
+## Simple Discrete Contextual MAB
+## Using Multi-UCB1
 ######################################################################
 class CMAB:
     '''
-    Simple Contextual Multi-armed Bandit implementation.
+    Simple Discrete Contextual Multi-armed Bandit implementation
+    using Multi-UCB1.
     '''
 
     def __init__(self):
@@ -164,13 +167,14 @@ class CMAB:
 
     def description(self):
         '''Return a string which describes the algorithm.'''
-        return "Contextual MAB"
+        return "Contextual MAB using Multi-UCB1"
 
     def update_reward(self, arm, reward, context=None):
         '''Use this method to update the algorithm which `arm` has been
         selected under which `context, and what `reward` has been observed 
         from the environment.'''
-        if context not in self.mab: self.mab[context] = MAB()
+        if context not in self.mab: 
+            self.mab[context] = UCB1() # we use UCB1 model for each context
         self.mab[context].update_reward(arm, reward)
 
     def get_reward(self, arm, context=None):

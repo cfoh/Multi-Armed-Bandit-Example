@@ -23,17 +23,17 @@ In the demo, the ML agent attempts to estimate the distribution of each arm base
 <br>
 Press `[F5]` to restart the demo.
 </td>
-<tr><td colspan="2"><b>
-Back to:<br>
+<tr><td colspan="2">
+<b>Back to:</b><br>
 <ul>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Multi Armed Bandit</a></li>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Algorithm</a></li>
 </ul>
-More:<br>
+<b>More:</b><br>
 <ul>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 4: Contextual Multi Armed Bandit</a></li>
 </ul>
-</b></td></tr>
+</td></tr>
 </table>
 
 ## Introduction<a name=intro></a>
@@ -51,7 +51,7 @@ The above forms the relationship: $P(\theta|y) \propto P(y|\theta) P(\theta)$. O
 
 Back to our digital advertising example, since the outcome is either a click or not, the reward follows Bernoulli distribution, which describes the likelihood of an outcome. With the likelihood of Bernoulli, it is shown that its conjugate prior is a Beta distribution (see Example Section of [this document](https://en.wikipedia.org/wiki/Conjugate_prior) for the proof). In other words, if we pick $\mbox{Beta}(\alpha,\beta)$ to be our initial reward distribution estimation, by updating with an observe Bernoulli outcome $s$, we can show that the posterior is $\mbox{Beta}(\alpha+s,\beta+(1-s))$ which is another Beta distribution, where $\alpha$ and $\beta$ are two hyperparameters of Beta distribution. The above provides us a facility to repeatedly update and refine the Beta distribution based on the outcome.
 
-Lastly, we need to put the established posterior distribution to good use. One common way of doing this is for the ML agent to draw a sample from the posterior distribution of each arm and exploit the arm with the highest value among all samples.
+Lastly, we need to put the established posterior distribution to good use. We do this by sampling posterior distribution. Precisely, the ML agent draws a sample from the posterior distribution of each arm, and then it exploits the arm that produces the highest value of sample among all.
 
 ## Implementation<a name=codes></a>
 
