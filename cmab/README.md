@@ -14,7 +14,7 @@ Chapter 4: Contextual Multi Armed Bandit
 </td>
 <td>
   Demo:<br>
-  <img src="https://user-images.githubusercontent.com/51439829/200311722-19f95e88-9583-44b4-aa54-fb9d72c69e1f.gif" width="400">
+  <img src="https://user-images.githubusercontent.com/51439829/200530420-104d1d82-1178-46b4-a033-e4e3e8f2d896.gif" width="400">
 </td>
 <tr><td colspan="2">
 
@@ -144,5 +144,4 @@ Click rate       = 30.6%  48.3%
 
 We also plot the no regret evolution over the course of the experiment below. We see the immediate performance gain right from the beginning. As the learning processes, CMAB widens the gap further to produce about 3 times more `no regret` options than that of MAB.
 
-<img src="https://user-images.githubusercontent.com/51439829/200311875-ffd3d50f-b36c-441c-9281-d8408a7ea5df.gif" width="400"/>
-
+<img src="https://user-images.githubusercontent.com/51439829/200530576-6dc7bdad-f373-4ffa-90bb-5d7da4098f73.png" width="400"/>
