@@ -39,9 +39,9 @@ Press `[F5]` to restart the demo.
 
 In Chapter 1, we saw that the ML agent may overlook potential best arm due to unlucky start and prematurely conclude that the arm wasn't worth exploiting. How do we let the agent know some arms actually have good potential and should be exploited even the average reward at that time isn't impressive?
 
-Luckily, we can apply Chernoff-Hoeffding bound to derive confidence interval. Essentially, we establish the probability that the next reward is bounded by some interval (also called radius) after seeing $N$ samples of rewards. If the probability is set very high, we say that we're very confident that the next reward is bounded by the interval, hence called confidence interval. While there are still a very small chance that the next reward may fall outside of the interval, we just think that this is so rare that we can ignore.
+Luckily, we can apply Hoeffding’s Inequality to derive confidence interval. Essentially, we establish the probability that the next reward is bounded by some interval (also called radius) after seeing $N$ samples of rewards. If the probability is set very high, we say that we're very confident that the next reward is bounded by the interval, hence called confidence interval. While there are still a very small chance that the next reward may fall outside of the interval, we just think that this is so rare that we can ignore.
 
-Back to the interval, it has an upper bound and a lower bound. We're interested in the upper bound, since this tells the potential of the next reward. Let $\bar{\mu}(a)$ be the empirical average reward of arm $a$ after exploring the arm $N$ times, and $\mu(a)$ be the true average reward of arm $a$. Skipping all detail derivations, we can show that:
+Back to the interval, it has an upper bound and a lower bound. We're interested in the upper bound, since this tells the potential of the next reward. Let $\bar{\mu}(a)$ be the empirical average reward of arm $a$ after exploring the arm $N$ times, and $\mu(a)$ be the true average reward of arm $a$. Applying Hoeffding’s Inequality, we get:
 
 $$Pr[|\bar{\mu}(a)-\mu(a)|\le r] \ge 1-\frac{2}{T^{2\alpha}}$$
 
@@ -59,7 +59,7 @@ Having the UCB, instead of using the observed average reward $\bar{\mu}(a)$ to d
 
 ## Implementation<a name=codes></a>
 
-The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$. The classical UCB (or UCB1) has the following settings:
+The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$. The classical UCB (or UCB1, as described in Figure 1 in [this paper](https://people.eecs.berkeley.edu/~russell/classes/cs294/s11/readings/Auer+al:2002.pdf)) has the following settings:
 - $\alpha$: It controls the failure where a future reward escapes the bound.
   This value should be sufficiently small to ensure that the probability of 
   failure is very small. In many implemenations, we set $\alpha=2$.
