@@ -206,7 +206,7 @@ Imagine the ML agent made the following picks over 5 rounds, knowing $\mu^{\star
 | $\mu^{\star}-\mu(a_t)$ |    0     |    0.05    |  0.15   |   0      |  0.1   |
 | $R(T)$                 |    0     |    0.05    |  0.20   |   0      |  0.30  |
 
-Note that $R(T)$ is a random process. We're more interested in $E[R(T)]$ (the mean of $R(T)$). Thus we need run the experiment many times to obtain $E[R(T)]$.
+Note that $R(T)$ is a random process. We're more interested in $E[R(T)]$, the mean of $R(T)$. Thus we need run the experiment many times to obtain $E[R(T)]$.
 
 ## Plots<a name=results></a>
 
