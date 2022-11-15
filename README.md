@@ -9,7 +9,8 @@ Chapter 1: Simple MAB
     <ul>
         <li><a href=#intro>Introduction</a></li>
         <li><a href=#codes>Implementation</a></li>
-        <li><a href=#outcomes>The Outcomes</a></li>
+        <li><a href=#strategy>Exploration-Exploitation</a></li>
+        <li><a href=#outcomes>Outcomes</a></li>
         <li><a href=#results>Result Plotting</a></li>
         <li><a href=#next>What's Next?</a></li>
     </ul>
@@ -24,11 +25,13 @@ The above demo shows how the ML agent offers advertisements. Users prefer `sport
 Press `[F5]` to restart the demo.
 </td>
 <tr><td colspan="2">
-<b>More:</b><br>
+<b>Contents</b><br>
 <ul>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Simple Multi Armed Bandit</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Algorithm</a></li>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 3: Thompson Sampling Technique</a></li>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 4: Contextual Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax">Chapter 3: Boltzmann Exploration (Softmax)</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Thompson Sampling Technique</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 </ul>
 </td></tr>
 </table>
@@ -151,9 +154,21 @@ class MAB:
         return max(self.average_reward.items(), key=operator.itemgetter(1))
 ```
 
+## Exploration-Exploitation Strategy<a name=strategy></a>
+
+In the previous section, we see that the ML agent switches between exploration and exploitation. Exploration can help the agent to establish new finding, but the finding might not produce good outcomes. On the other hand, Exploitation ensures the agent picks the best option based on what have already discovered, but might get stuck at a local maximal if the discovery is insufficient. This is called **exploration-exploitation dilemma**.
+
+There are two popular strategies:
+- **Explore-First**: We explore random arms for some rounds, 
+  then we switch to exploitation for the remaining rounds of operation.
+- **Epsilon-Greedy**: For every round, we explore a random arm with $\epsilon$
+  probability. We can set $\epsilon$ to a fixed value or use a function. We often use an $\epsilon$-decreasing function, e.g. $\epsilon=t^{-\frac{1}{3}}$ where $t$ is the current round so that the agent performs more explorations as time progresses.
+
+The selection of strategy is critical if the time horizon is finite. That is, you only have a finite number of rounds to explore and exploit. For example, you are visiting a new town for a week, should you explore a new restaurant for every dinner or exploit a good one when you discovered one? This specific problem has been studied and the result is quite interesting, see [Gittins Index](https://en.wikipedia.org/wiki/Gittins_index).
+
 ## Outcomes<a name=outcomes></a>
 
-We measure the effectiveness of our strategy by `click through rate` (CTR) or simply called `click rate`. It is the percentage that a user will click and explore the offered advertisement. By setting epsilon to 0.15, we achieve around 36% of click rate. If somehow the ML agent knows the user behaviour, it will, of course, always offer `sports` which has the highest click rate among all, and so the theoretical optimal click rate is 40%. Our ML agent achieves 36% which is actually not far from the optimal click rate.
+We measure the effectiveness of our strategy by `click through rate` (CTR) or simply called `click rate`. It is the percentage that a user will click and explore the offered advertisement. We use Epsilon-Greedy strategy with the setting $\epsilon=0.15$, and we achieve around 36% of click rate. If somehow the ML agent knows the user behaviour, it will, of course, always offer `sports` which has the highest click rate among all, and so the theoretical optimal click rate is 40%. Our ML agent achieves 36% which is actually not far from the optimal click rate.
 
 ```console
 Testing Simple MAB
@@ -178,11 +193,11 @@ Theoretical best click rate = 40.00%
 
 The top part of the printout shows the average reward recorded in the ML agent for each ad, and the number of times that the ad is shown to users. As can be seen, the agent correctly recorded `sports` being the highest reward among all.
 
-Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. Let $a_t$ be the arm selected at round $t$ and the reward collected by selecting it is $\mu(a_t)$. Let $\mu^{\star}$ be the optimal average reward. Then the gap between the collected and optimal rewards is simply $\mu^{\star}-\mu(a_t)$. After accumulating $T$ rounds of regrets, we get
+Another measure of the ML performance is `Regret`. It measures the reward gap between the picked arm and the best arm. Obviously, we want the gap to be small, i.e. the regret to be low. Let $a_t$ be the arm selected at round $t$ and the expected reward collected by selecting it is $\mu(a_t)$. Let $\mu^{\star}$ be the optimal average reward. Then the gap between the collected and optimal rewards is simply $\mu^{\star}-\mu(a_t)$. After accumulating $T$ rounds of regrets, we get:
 
 $$R(T) = \sum_{t=1}^{T} (\mu^{\star} - \mu(a_t)) = T \mu^{\star} - \sum_{t=1}^{T} \mu(a_t).$$
 
-Imagine the ML agent made the following picks over 5 rounds, knowing $\mu^{\star}=0.4$, then $R(T)$ is:
+Imagine the ML agent made the following picks over 5 rounds, knowing $\mu^{\star}=0.4$, then $R(T)$ for this particular experiment run is:
 
 | $T$                    |    1     |      2     |     3   |     4    |    5   |
 |------------------------|----------|------------|---------|----------|--------|
@@ -191,13 +206,15 @@ Imagine the ML agent made the following picks over 5 rounds, knowing $\mu^{\star
 | $\mu^{\star}-\mu(a_t)$ |    0     |    0.05    |  0.15   |   0      |  0.1   |
 | $R(T)$                 |    0     |    0.05    |  0.20   |   0      |  0.30  |
 
+Note that $R(T)$ is a random process. We're more interested in $E[R(T)]$ (the mean of $R(T)$). Thus we need run the experiment many times to obtain $E[R(T)]$.
+
 ## Plots<a name=results></a>
 
 Here we plot the click rate evolving over the time below.
 
 ![mab-click-rate](https://user-images.githubusercontent.com/51439829/200084339-512843fa-633d-46c6-949e-07b9cc3b2fce.png)
 
-In the following, we plot the regret evolution. As can be seen, the regret was climbing fast initially as `cars` was lucky to have higher click rate (or average reward) causing the agent to exploit it. After discovering that `sports` had a better average reward, it then started to exploit `sports`. Ideally the regret should stay flat after discovering `sports` being the best ad. But since the agent still occasionally explored other non-optimal arms, the regret continued to increase due to this.
+In the following, we plot the regret evolution for one experiment run. As can be seen, the regret was climbing fast initially as `cars` was lucky to have higher click rate (or average reward) causing the agent to exploit it. After discovering that `sports` had a better average reward, it then started to exploit `sports`. Ideally the regret should stay flat after discovering `sports` being the best ad. But since we use Epsilon-Greedy strategy, the agent still occasionally explored other non-optimal arms, the regret continued to increase linearly with a slower rate due to this.
 
 ![mab-regret](https://user-images.githubusercontent.com/51439829/200084369-acfbfea0-34f4-43b0-95de-58e4a605af49.png)
 

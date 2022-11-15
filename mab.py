@@ -152,6 +152,49 @@ class TS:
 
 
 ######################################################################
+## Boltzmann Exploration (Softmax)
+######################################################################
+class SoftMax(MAB):
+    '''
+    Boltzmann Exploration (Softmax).
+    '''
+
+    def __init__(self, tau=1.0):
+        '''Constructor.'''
+        super().__init__()
+        self.tau = tau
+
+    def description(self) -> str:
+        '''Return a string which describes the algorithm.'''
+        return "Boltzmann Exploration (Softmax)"
+
+    def get_best_arm(self):
+        '''Return a tuple (arm,reward) representing the best arm and
+        the corresponding average reward. If this arm has not been 
+        seen by the algorithm, it simply returns (None,None).'''
+        if len(self.average_reward)==0: 
+            return (None,None) # nothing in Q-table yet, do exploration
+        arm_list = [arm for arm in self.average_reward]
+        arm_weight = [math.exp(reward/self.tau) for reward in self.average_reward.values()]
+        # note that we don't need to divide the denominator because 
+        # `random.choices()` will scale `arm_weight` automatically
+        choice = random.choices(arm_list,arm_weight)[0]
+        return (choice,self.average_reward[choice])
+
+    def get_prob_list(self):
+        '''Get the probability dictionary for all arms. Each quantity describes
+        the probability that an arm will be picked.'''
+        arm_prob = {}
+        weigth_sum = 0
+        if len(self.average_reward)!=0:
+            for arm,reward in self.average_reward.items():
+                arm_prob[arm] = math.exp(reward/self.tau)
+                weigth_sum += arm_prob[arm]
+            for arm in arm_prob:
+                arm_prob[arm] /= weigth_sum
+        return(arm_prob)
+
+######################################################################
 ## Simple Discrete Contextual MAB
 ## Using Multi-UCB1
 ######################################################################

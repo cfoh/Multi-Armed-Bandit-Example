@@ -1,4 +1,4 @@
-# Contextual Multi-Armed Bandit
+# Chapter 5: Contextual Multi-Armed Bandit
 
 <table>
 <tr><td colspan="2"><b>
@@ -23,11 +23,13 @@ The above demo compares the ML performance when the model uses or doesn't use co
 Press `[F5]` to restart the demo.
 </td>
 <tr><td colspan="2">
-<b>Back to:</b><br>
+<b>Contents</b><br>
 <ul>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Simple Multi Armed Bandit</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Algorithm</a></li>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 3: Thompson Sampling Technique</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax">Chapter 3: Boltzmann Exploration (Softmax)</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Thompson Sampling Technique</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 </ul>
 </td></tr>
 </table>
@@ -77,7 +79,9 @@ Contextual MAB learning algorithm. Our setup is:
 
 ## Implementation<a name=codes></a>
 
-With a small set of discrete and independent contexts, considering applying UCB1 based our base method, we can simply use a separate instance of UCB1 for each context. In other words, each UCB1 instance independently learns and optimizes its decision making for its own context. The following is the implementation:
+With a small set of discrete and independent contexts, considering applying UCB1 based our base method, we can simply use a separate instance of UCB1 for each context. In other words, each UCB1 instance independently learns and optimizes its decision making for its own context. This approach is described by Li *et al.* as `UCB (seg)` in their work [here](https://arxiv.org/pdf/1003.0146.pdf).
+
+The following is the implementation:
 
 ```python
 class CMAB:

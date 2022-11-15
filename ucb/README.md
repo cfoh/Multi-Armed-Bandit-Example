@@ -2,7 +2,7 @@
 
 <table>
 <tr><td colspan="2"><b>
-Chapter 2: Upper Confidence Bound
+Chapter 2: Upper Confidence Bound (UCB)
 </b></td></tr>
 <tr>
 <td valign="top">
@@ -23,14 +23,13 @@ From the above demo, we can see that the ML agent gives preference to those arms
 Press `[F5]` to restart the demo.
 </td>
 <tr><td colspan="2">
-<b>Back to:</b><br>
+<b>Contents</b><br>
 <ul>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Multi Armed Bandit</a></li>
-</ul>
-<b>More:</b><br>
-<ul>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 3: Thompson Sampling Technique</a></li>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 4: Contextual Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Simple Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Algorithm</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax">Chapter 3: Boltzmann Exploration (Softmax)</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Thompson Sampling Technique</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 </ul>
 </td></tr>
 </table>
@@ -136,4 +135,4 @@ Unlike the simple MAB where the learning can be highly influenced by the short-t
 
 In the previous chapter, we introduce MAB and demonstrated its operation using a primitive MAB. This chapter discusses the classical UCB which aims to avoid missing potential good arms due to short-term bias in the environment. 
 
-Imagine if the ML agent can estimate the distribution of each arm rather than just an upper bound, it will have much more information to make better decision. Thompson Sampling technique provides a means to estimate the distribution of an arm by continuingly shaping the estimated distribution using observed rewards. How? This will be our topic in the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts).
+In both techniques, the ML agent exploits the best arm by choosing the arm with the highest average reward. This decision is hard and can get the agent stucked at a local maximal. In the next chapter, we shall look at `Boltzmann Exploration` which is also called the softmax exploration. Rather focusing on the best arm, the technique uses softmax function to decide which arm to pick. We shall see in the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax) how the ML agent makes decision using softmax function.

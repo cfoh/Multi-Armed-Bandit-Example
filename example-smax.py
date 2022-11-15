@@ -1,5 +1,5 @@
 '''
-Upper Confidence Bound (UCB) Algorithm.
+Boltzmann Exploration (Softmax).
 '''
 
 from math import ceil
@@ -7,7 +7,7 @@ import random
 import time
 import matplotlib.pyplot as plt
 
-from mab import UCB1
+from mab import SoftMax
 
 ######################################################################
 ## User behaviour matrix for the environment (static class)
@@ -143,7 +143,7 @@ class BaseStrategy:
         return True # default is 100% exploration
 
 class EpsilonGreedy(BaseStrategy):
-    def __init__(self,epsilon):
+    def __init__(self, epsilon):
         self.epsilon = epsilon
     def description(self):
         return f"Epsilon Greedy, epsilon = {self.epsilon}"
@@ -151,7 +151,7 @@ class EpsilonGreedy(BaseStrategy):
         return random.random()<self.epsilon
 
 class ExplorationFirst(BaseStrategy):
-    def __init__(self,switch_round):
+    def __init__(self, switch_round):
         self.switch_round = int(switch_round)
     def description(self):
         return f"Explore-First for {self.switch_round} rounds"
@@ -167,10 +167,10 @@ if __name__ == "__main__":
     ## setup environment parameters
     num_users = 2000 # number of users to visit the website
     num_clicks = 0   # number of clicks collected
-    animation   = True  # True/False
+    animation  = True # True/False
 
-    ## setup MAB (pick one)
-    mab = UCB1()       # UCB agent
+    ## setup MAB
+    mab = SoftMax(0.05)       # SoftMax
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)
@@ -188,12 +188,9 @@ if __name__ == "__main__":
     print(f"\033[K")
 
     ## print heading for the animation
-    last_ucb = {}
-    for ad_type in Ad.AllArms: last_ucb[ad_type] = 0
     print(f"Testing {mab.description()}\n")
-    print(" Ad      Average  UCB   Ad shown")
-    print("type      reward radius to users")
-    print("--------------------------------")
+    print("Ad_type   Reward  Weight Ad_shown_to_users")
+    print("------------------------------------------")
 
     ## this is the main loop
     ## the objective of ML agent is to achieve 
@@ -221,14 +218,14 @@ if __name__ == "__main__":
             click_reward = 0
         Empirical.report(offered_ad, click_reward)
         mab.update_reward(arm=offered_ad, reward=click_reward)
-        last_ucb[offered_ad] = mab.get_last_ucb()
 
         ## show animation
+        arm_prob = mab.get_prob_list()
         for arm in Ad.AllArms:
             r = mab.get_reward(arm)
+            p = 0 if arm not in arm_prob else arm_prob[arm]
             len_count_bar = int(50*Empirical.get_arm_count(arm)/round)
-            print(f"\033[K> {arm:8s} {r:5.2f} ",end="")
-            print(f"{last_ucb[arm]:5.2f} ",end="")
+            print(f"\033[K> {arm:8s} {r:5.2f} {p:5.2f}  ",end="")
             print("*" if arm==offered_ad else " ",end="")
             print("[%s] %d"%("="*len_count_bar,Empirical.get_arm_count(arm)))
         current_click_rate = Empirical.get_click_rate()

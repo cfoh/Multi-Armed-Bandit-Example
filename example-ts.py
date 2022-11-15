@@ -171,7 +171,7 @@ class ExplorationFirst(BaseStrategy):
     def __init__(self,switch_round):
         self.switch_round = int(switch_round)
     def description(self):
-        return f"Exploration first for {self.switch_round} rounds"
+        return f"Explore-First for {self.switch_round} rounds"
     def is_exploration(self,round):
         return round<self.switch_round
 
@@ -184,6 +184,8 @@ if __name__ == "__main__":
     ## setup environment parameters
     num_users = 2000 # number of users to visit the website
     num_clicks = 0   # number of clicks collected
+    animation   = False  # True/False
+    create_beta = False # to create animated beta function plot?
 
     ## setup MAB (pick one)
     mab = TS()         # Thomspon Sampling
@@ -192,6 +194,7 @@ if __name__ == "__main__":
     strategy = EpsilonGreedy(0.15)
     #strategy = EpsilonGreedy(1.0) # set to 1.0 for 100% exploration
     #strategy = ExplorationFirst(0.2*num_users) # 20% exploration first
+    #strategy = ExplorationFirst(0.02*num_users) # 2% exploration first
 
     ## ready-set-go
     print("\n")
@@ -199,7 +202,7 @@ if __name__ == "__main__":
     for i in range(40,0,-1):
         print(f"\033[KRunning in ...{ceil(i/10)} {spiner[i%len(spiner)]}")
         print("\033[2A")
-        time.sleep(0.1)
+        time.sleep(0.1*animation)
     print(f"\033[K")
 
     ## print heading for the animation
@@ -252,7 +255,7 @@ if __name__ == "__main__":
         print(f"\nClick rate = {current_click_rate:5.2f}")
         print(f"Regret = {current_regret:5.2f}")
         print("\033[9A")
-        time.sleep(0.05)
+        time.sleep(0.05*animation if round<1000 else 0.01*animation)
 
     ## show outcome
     average_click_rate = num_clicks/num_users
@@ -265,19 +268,20 @@ if __name__ == "__main__":
     print(f"Theoretical best click rate = {100*best_click_rate:4.2f}%")
 
     ## create animated beta distributions
-    fig,ax = plt.subplots(1,1)
-    fig.set_size_inches(5,5)
-    ad_line_color = {"toys":"g-","cars":"b-","sports":"m-","holidays":"y-","foods":"r-"}
-    def animate(i):
-        i *= 5 # step
-        ax.clear()
-        ax.set_ylim([0,18])
-        ax.text(0, 17, f"round = {i}")
-        x = np.linspace(0, 1.0, 100)
-        for arm in Ad.AllArms:
-            y = beta.pdf(x, Empirical.alpha_series[arm][i], Empirical.beta_series[arm][i])
-            ax.plot(x, y, ad_line_color[arm], label=arm+f" ({Ad.Type[arm]:3.2f})")
-        ax.legend(loc="upper right") 
-    ani = FuncAnimation(fig, animate, frames=150, interval=20, repeat=False)
-    plt.close()
-    ani.save("beta_distributions.gif", dpi=300, writer=PillowWriter(fps=10))
+    if create_beta:
+        fig,ax = plt.subplots(1,1)
+        fig.set_size_inches(5,5)
+        ad_line_color = {"toys":"g-","cars":"b-","sports":"m-","holidays":"y-","foods":"r-"}
+        def animate(i):
+            i *= 5 # step
+            ax.clear()
+            ax.set_ylim([0,18])
+            ax.text(0, 17, f"round = {i}")
+            x = np.linspace(0, 1.0, 100)
+            for arm in Ad.AllArms:
+                y = beta.pdf(x, Empirical.alpha_series[arm][i], Empirical.beta_series[arm][i])
+                ax.plot(x, y, ad_line_color[arm], label=arm+f" ({Ad.Type[arm]:3.2f})")
+            ax.legend(loc="upper right") 
+        ani = FuncAnimation(fig, animate, frames=150, interval=20, repeat=False)
+        plt.close()
+        ani.save("beta_distributions.gif", dpi=300, writer=PillowWriter(fps=10))

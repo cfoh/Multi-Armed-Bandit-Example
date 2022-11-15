@@ -5,13 +5,15 @@ embeds a small advertisement banner with the objective that
 users visiting the website will click the advertisement banner 
 to explore the advertised products or services.
 
-However, different users have different interests, and thus not
-all types of advertisements will attract all users. We need to 
-which type of advertisements is the most clicked by the users
-and thus we can offer other users the same type of advertisements.
+However, not all types of advertisements will attract all users.
+In our example, we have 5 types of ads we can put in the banner.
+For each user visiting our webpage, we need to decide which 
+type of ads we should show to the user such that we can achieve
+the highest click through rate, i.e. the highest chance of users
+clicking the presented ad. 
 
 In this tutorial, we shall use **Multi-Armed Bandit** (MAB) 
-reinforcement learning (RL) to establish the relationship. MAB
+reinforcement learning (RL) to perform decision making. MAB
 is an online learning meaning that the machine learning (ML) agent
 learns during the operation. 
 
@@ -203,7 +205,7 @@ class BaseStrategy:
         return True # default is 100% exploration
 
 class EpsilonGreedy(BaseStrategy):
-    def __init__(self,epsilon):
+    def __init__(self, epsilon):
         self.epsilon = epsilon
     def description(self):
         return f"Epsilon Greedy, epsilon = {self.epsilon}"
@@ -211,10 +213,10 @@ class EpsilonGreedy(BaseStrategy):
         return random.random()<self.epsilon
 
 class ExplorationFirst(BaseStrategy):
-    def __init__(self,switch_round):
+    def __init__(self, switch_round):
         self.switch_round = int(switch_round)
     def description(self):
-        return f"Exploration first for {self.switch_round} rounds"
+        return f"Explore-First for {self.switch_round} rounds"
     def is_exploration(self,round):
         return round<self.switch_round
 
@@ -227,6 +229,7 @@ if __name__ == "__main__":
     ## setup environment parameters
     num_users = 2000 # number of users to visit the website
     num_clicks = 0   # number of clicks collected
+    animation  = True # True/False
 
     ## setup MAB
     mab = MAB()       # simple MAB agent
@@ -235,6 +238,7 @@ if __name__ == "__main__":
     strategy = EpsilonGreedy(0.15)
     #strategy = EpsilonGreedy(1.0) # set to 1.0 for 100% exploration
     #strategy = ExplorationFirst(0.2*num_users) # 20% exploration first
+    #strategy = ExplorationFirst(0.02*num_users) # 2% exploration first
 
     ## ready-set-go
     print("\n")
@@ -242,7 +246,7 @@ if __name__ == "__main__":
     for i in range(40,0,-1):
         print(f"\033[KRunning in ...{ceil(i/10)} {spiner[i%len(spiner)]}")
         print("\033[2A")
-        time.sleep(0.1)
+        time.sleep(0.1*animation)
     print(f"\033[K")
 
     ## print heading for the animation
@@ -289,7 +293,7 @@ if __name__ == "__main__":
         print(f"\nClick rate = {current_click_rate:5.2f}")
         print(f"Regret = {current_regret:5.2f}")
         print("\033[9A")
-        time.sleep(0.05)
+        time.sleep(0.05*animation if round<1000 else 0.01*animation)
 
     ## show outcome
     average_click_rate = num_clicks/num_users

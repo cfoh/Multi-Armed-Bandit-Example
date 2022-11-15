@@ -210,7 +210,7 @@ class ExplorationFirst(BaseStrategy):
     def __init__(self,switch_round):
         self.switch_round = int(switch_round)
     def description(self):
-        return f"Exploration first for {self.switch_round} rounds"
+        return f"Explore-First for {self.switch_round} rounds"
     def is_exploration(self,round):
         return round<self.switch_round
 
