@@ -15,7 +15,7 @@ Chapter 3: Boltzmann Exploration (Softmax)
 </td>
 <td>
   Demo:<br>
-  <img src="https://user-images.githubusercontent.com/51439829/200530420-104d1d82-1178-46b4-a033-e4e3e8f2d896.gif" width="400">
+  <img src="https://user-images.githubusercontent.com/51439829/202054960-388c0b4d-ec34-4c49-a3e1-0f3774e79c7b.gif" width="400">
 </td>
 <tr><td colspan="2">
 The above demo shows the empirical average and the corresponding probability for each arm. Because the arm selection is based on the corresponding probability, the agent will not always choose the arm with the maximum probability. As can be seen, the agent occasionally tries other arms that don't produce the highest probability.
@@ -38,7 +38,7 @@ Press `[F5]` to restart the demo.
 
 In the previous chapters, we see the ML agent greedily chooses the arm with the highest average reward. While choosing the highest average reward seems to be the best option, it may miss other options that are just below the best, and one of these options may actually be the best but just suffers from short-term bias.
 
-Rather than focusing on the best, Boltzmann Exploration first establishes a weight for each arm based on its empirical average reward compared to all others, then pick an arm based on the weights. viewuses a Pick an arm with a probability proportional to is average reward. The following is how it establishes the weight (or probability). Let there be $N$ arms where $\mathbf{N}={1,2,...,N}$, and $\mu_n$ be the empirical mean reward of $n$-th arm. The probability for the agent to pick arm $a$ follows the following softmax function where $\tau$ is a hyperparameter scaling mean rewards:
+Rather than focusing on the best, Boltzmann Exploration first establishes a weight for each arm based on its empirical average reward compared to all others, then pick an arm based on the weights. viewuses a Pick an arm with a probability proportional to is average reward. The following is how it establishes the weight (or probability). Let there be $N$ arms where $\mathbf{N}$={1,2,..., $N$}, and $\mu_n$ be the empirical mean reward of $n$-th arm. The probability for the agent to pick arm $a$ follows the following softmax function where $\tau$ is a hyperparameter scaling mean rewards:
 
 $$P(a) = \frac{\exp(\frac{\mu_a}{\tau})}{\sum_{n\in \mathbf{N}}\exp(\frac{\mu_n}{\tau})}$$
 
