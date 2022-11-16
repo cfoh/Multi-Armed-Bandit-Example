@@ -49,7 +49,7 @@ The above forms the relationship (i.e. Bayes' Theorem):
 
 $$P(\theta|y) = \frac{P(y|\theta) P(\theta)}{P(y)}$$ 
 
-which is $P(\theta|y) \propto P(y|\theta) P(\theta)$ since P(y) is just some constant. Our goal is to obtain the posterior by updating the prior using observing outcomes. If the posterior gives the same distribution as the prior, then we can use the posterior as the next prior to repeat the update process over and over again. Hence we need the posterior to be in the same probability distribution family as the prior.
+which is $P(\theta|y) \propto P(y|\theta) P(\theta)$ since $P(y)$ is just some constant. Our goal is to obtain the posterior by updating the prior using observing outcomes. If the posterior gives the same distribution as the prior, then we can use the posterior as the next prior to repeat the update process over and over again. Hence we need the posterior to be in the same probability distribution family as the prior.
 
 Back to our digital advertising example, since the outcome is either a click or not, the reward follows Bernoulli distribution, which describes the likelihood of an outcome. With the likelihood of Bernoulli, it is shown that its conjugate prior is a Beta distribution (see Example Section of [this document](https://en.wikipedia.org/wiki/Conjugate_prior) for the proof). In other words, if we pick $\mbox{Beta}(\alpha,\beta)$ to be our initial reward distribution estimation, by updating with an observe Bernoulli outcome $s$, we can show that the posterior is $\mbox{Beta}(\alpha+s,\beta+(1-s))$ which is another Beta distribution, where $\alpha$ and $\beta$ are two hyperparameters of Beta distribution. The above provides us a facility to repeatedly update and refine the Beta distribution based on the outcome.
 
