@@ -1,4 +1,4 @@
-# Boltzmann Exploration (Softmax)
+# Chapter 3: Boltzmann Exploration (Softmax)
 
 <table>
 <tr><td colspan="2"><b>
