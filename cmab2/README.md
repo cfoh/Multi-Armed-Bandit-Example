@@ -14,7 +14,7 @@ Chapter 6: Contextual Multi Armed Bandit (more)
 </td>
 <td>
   Demo:<br>
-  <img src="https://user-images.githubusercontent.com/51439829/202530110-465848ec-bd0a-4940-9fc5-0776b69157f1.gif" width="400">
+  <img src="https://user-images.githubusercontent.com/51439829/202530268-e0a7aad7-c8b8-46e2-af34-a9b7492a3615.gif" width="400">
 </td>
 <tr><td colspan="2">
 The above is a simple demo showing how a single ML agent manage contexts. We have 5 user age groups and 5 types of advertisements to offer to each user. The demo shows the number of ads shown for each age group. As can be seen, the ML agent can differentiate user age groups and serve them with different types of ads that maximizes click through rate.
