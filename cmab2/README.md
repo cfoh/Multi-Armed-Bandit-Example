@@ -58,10 +58,6 @@ class CMAB2(MAB):
         '''Constructor.'''
         super().__init__()
 
-    def description(self):
-        '''Return a string which describes the algorithm.'''
-        return "Contextual MAB using Summarized Contexts"
-
     def context(self, feature, action=None):
         '''Return the context summarizing feature and action.'''
         return (feature,action)
