@@ -32,6 +32,7 @@ Press `[F5]` to restart the demo.
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax">Chapter 3: Boltzmann Exploration (Softmax)</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Thompson Sampling Technique</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2">Chapter 6: Contextual Multi Armed Bandit (more)</a></li>
 </ul>
 </td></tr>
 </table>
@@ -102,15 +103,17 @@ Our setup is:
 
 ## MAB Implementation<a name=codes></a>
 
-The concept of MAB is very simple. In this example, the agent has 5 ads (or `arms`) to show to users. It switches between exploration and exploitation. 
+Here we're dealing with Stochastic Bandit problem. In other words, the rewards we observe from the environment follow a particular random behaviour which is unknown to us. We want to develop a policy that we can learn the rewards over the time and improve our decision.
+
+The process of MAB is very simple. In this example, the agent has 5 ads (or `arms`) to show to users. It switches between exploration and exploitation. 
 - During exploration, it randomly picks an ad. After showing the ad, it observes whether the ad banner has been clicked by the user. The outcome is translated to `rewards` and recorded in a `reward table`.
 - During exploitation, it checks the `reward table` to look for the ad that has the highest average reward. It then picks that ad to show to the user.
 
-The average reward of an arm can be calculated directly by
+The average reward of an arm can be calculated directly by:
 
 $$Q_{k}(a) = \frac{1}{k}\left(r_1 + r_2 + \cdots + r_k\right)$$
 
-where $k$ is the number of times that arm $a$ has been chosen in the past, $r_i$ is the $i$-th reward when arm $a$ was chosen, and the sum $(r_1 + r_2 + \cdots + r_k)$ is the total reward. We can also compute $Q_{k}(a)$ recursively by
+where $k$ is the number of times that arm $a$ has been chosen in the past, $r_i$ is the $i$-th reward when arm $a$ was chosen, and the sum $(r_1 + r_2 + \cdots + r_k)$ is the total reward. We can also compute $Q_{k}(a)$ recursively by:
 
 $$Q_{k}(a) = \frac{1}{k} \left((k-1)\cdot Q_{k-1}(a) + r_k\right).$$
 

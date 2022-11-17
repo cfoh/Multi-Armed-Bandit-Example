@@ -2,7 +2,7 @@
 
 <table>
 <tr><td colspan="2"><b>
-Chapter 4: Contextual Multi Armed Bandit
+Chapter 5: Contextual Multi Armed Bandit
 </b></td></tr>
 <tr>
 <td valign="top">
@@ -10,6 +10,7 @@ Chapter 4: Contextual Multi Armed Bandit
         <li><a href=#intro>Introduction</a></li>
         <li><a href=#codes>Implementation</a></li>
         <li><a href=#outcomes>The Outcomes</a></li>
+        <li><a href=#next>What's Next?</a></li>
     </ul>
 </td>
 <td>
@@ -30,6 +31,7 @@ Press `[F5]` to restart the demo.
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax">Chapter 3: Boltzmann Exploration (Softmax)</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Thompson Sampling Technique</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2">Chapter 6: Contextual Multi Armed Bandit (more)</a></li>
 </ul>
 </td></tr>
 </table>
@@ -149,3 +151,7 @@ Click rate       = 30.6%  48.3%
 We also plot the no regret evolution over the course of the experiment below. We see the immediate performance gain right from the beginning. As the learning processes, CMAB widens the gap further to produce about 3 times more `no regret` options than that of MAB.
 
 <img src="https://user-images.githubusercontent.com/51439829/200530576-6dc7bdad-f373-4ffa-90bb-5d7da4098f73.png" width="400"/>
+
+## What's Next?<a name=next></a>
+
+Contextual Multi Armed Bandit can also be implemented differently. We can summarize user features and actions to form contexts. With all information summarized in the context, we can then use a single ML agent to manage all contexts. We shall disucss this implementation in the next chapter.

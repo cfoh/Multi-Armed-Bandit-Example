@@ -1,44 +1,13 @@
 '''
-In **Digital advertising**, we often see different users having
-different preferences. It is thus inefficient to apply the 
-same strategy to all users. Being able to differentiate users
-into different `profiles` will enable the ML agent to treat 
-users with different profiles differently. In this case, we
-want to capture the `profiles` or `contexts`.
-
-To illustrate the concept, we create an environment with 5 
-user groups based on their age group. The following table
-shows the likelihood of users in each age group clicking 
-different types of advertisements.
-
-```
-  The Environment
-+-------------------+--------------------------------------+
-|                   |              Age group               |
-| Ad Type           |  <25    26-35   36-45   46-55  >55   |
-+-------------------+--------------------------------------+
-| Toys & Games      |  80%     15%     10%     5%     5%   |
-| Cars              |   5%     50%     30%    15%    10%   |
-| Sports            |  15%     30%     40%    30%    30%   |
-| Holiday Packages  |   5%     20%     35%    50%    50%   |
-| Foods & Health    |   5%     25%     25%    40%    60%   |
-+-------------------+--------------------------------------+
-```
-
-We shall use Contextual MAB to dea with this problem. 
-For the sake of explanation, we introduce some simplified assumptions. 
-- We use a small set of discrete contexts. 
-- The contexts are independent of each other, meaning that 
-  there is no relationship between the user behaviour any pair of 
-  age groups. 
-- When a user visits our website, we're able to somehow obtain the 
-  user profile (or the context). 
-  
-With this very simple setup, we're able to design a simple discrete 
-Contextual MAB learning algorithm. Our setup is:
-- the `context` is the age group
-- the `arms` are advertisement type to offer
-- the `reward` is 1 if a click is registered, 0 otherwise
+In this example, we summarize both user profiles and actions to 
+form contexts. We can then use MAB to perform learning. Some
+changes are needed. Briefly, the algorithm can be described by:
+- Observe the user profile and produce context for each action
+- Rank the produced contexts based on their average reward
+- Pick the best context. The action associated with the context
+  will be executed
+- Observe the reward after executing the action, update the 
+  context based on the observed reward
 '''
 
 from math import ceil
@@ -46,7 +15,7 @@ import random
 import time
 import matplotlib.pyplot as plt
 
-from mab import MAB, CMAB
+from mab import CMAB2
 from mab import ExplorationFirst, EpsilonGreedy, EpsilonDecreasing
 
 ######################################################################
@@ -201,14 +170,11 @@ if __name__ == "__main__":
 
     ## setup environment parameters
     num_users = 10000    # number of users to visit the website
-    mab_num_clicks = 0   # number of clicks collected for mab
-    cmab_num_clicks = 0  # number of clicks collected for cmab
-    animation  = True # True/False
+    num_clicks = 0       # number of clicks collected for cmab
+    animation  = True   # True/False
 
     ## we run both agents together
-    mab  = MAB()      # simple MAB agent
-    cmab = CMAB()     # CMAB agent
-    mab_out = Empirical()
+    cmab = CMAB2()    # MAB agent with summarized contexts
     cmab_out = Empirical()
 
     ## setup exploration-exploitation strategy (pick one)
@@ -227,10 +193,18 @@ if __name__ == "__main__":
         time.sleep(0.1*animation)
     print(f"\033[K")
 
+    ## animation content
+    print(f"Testing {cmab.description()}\n")
+    print(f"Number of ads presented:")
+    print(f"Age Group:  {1:5d} {2:5d} {3:5d} {4:5d} {5:5d}")
+    print(f"            {'-'*30}")
+    count = {}
+    for ad in Ad.AllArms:
+        count[ad] = [0]*Ad.AgeGroupSize
+
     ## this is the main loop
     ## the objective of ML agent is to achieve 
     ## as many clicks as possible through learning
-    print(f"Testing {cmab.description()}\n")
     for round in range(num_users):
 
         ## a user has visited the website
@@ -239,67 +213,51 @@ if __name__ == "__main__":
         ## prepare an advertisement
         ## ..by exploration
         if strategy.is_exploration(round):
-            mab_ad = cmab_ad = random.choices(Ad.AllArms)[0]
+            offered_ad = random.choices(Ad.AllArms)[0]
         ## ..by exploitation
         else:
-            ## for mab
-            (mab_ad,_) = mab.get_best_arm()
-            if mab_ad is None: # no info about this arm?
-                mab_ad = random.choices(Ad.AllArms)[0]
-            ## for cmab
-            (cmab_ad,_) = cmab.get_best_arm(user.group)
-            if cmab_ad is None: # no info about this user group?
-                cmab_ad = random.choices(Ad.AllArms)[0]
+            (offered_ad,_) = cmab.get_best_arm(cmab.context(user.group))
+            if offered_ad is None: # no info about this user group?
+                offered_ad = random.choices(Ad.AllArms)[0]
 
-        ## for mab, will the user click?
-        if user.will_click(mab_ad):
-            mab_num_clicks += 1
+        ## will the user click?
+        if user.will_click(offered_ad):
+            num_clicks += 1
             reward = 1
         else:
             reward = 0
-        mab.update_reward(arm=mab_ad, reward=reward)
-        mab_out.report(mab_ad, reward, user.group)
-
-        ## for cmab, will the user click?
-        if user.will_click(cmab_ad):
-            cmab_num_clicks += 1
-            reward = 1
-        else:
-            reward = 0
-        cmab.update_reward(arm=cmab_ad, reward=reward, context=user.group)
-        cmab_out.report(cmab_ad, reward, user.group)
+        context = cmab.context(user.group,offered_ad)
+        cmab.update_reward(context, reward)
+        cmab_out.report(offered_ad, reward, user.group)
 
         ## show animation 
-        mab_no_regret = int(60*mab_out.get_hit_count()/(round+1))
-        cmab_no_regret = int(60*cmab_out.get_hit_count()/(round+1))
-        print(f"\033[KNumber of visitors = {round+1}")
-        print(f"\033[KNumber of optimal arms played:")
-        print(f"\033[K> MAB  [%s] %d"%("="*mab_no_regret,mab_out.get_hit_count()))
-        print(f"\033[K> CMAB [%s] %d"%("="*cmab_no_regret,cmab_out.get_hit_count()))
-        print("\033[5A")
+        count[offered_ad][user.group] += 1
+        for ad in Ad.AllArms:
+            print(f"\033[K  {ad:11s}",end="")
+            for grp in Ad.AllAgeGroups:
+                print(f"{count[ad][grp]:4d}  ",end="")
+            print()
+        print(f"\nNumber of visitors = {round}")
         if animation:
             time.sleep(0.05 if round<150 else 0.01 if round<2000 else 0.001)
+        print("\033[8A")
 
     ## show outcome
-    mab_average_click_rate  = mab_num_clicks/num_users
-    cmab_average_click_rate = cmab_num_clicks/num_users
+    cmab_average_click_rate = num_clicks/num_users
     best_click_rate = Theoretical.overall_optimal_click_rate()
-    print("%s"%"\n"*4)
+    print("%s"%"\n"*5)
     print(f"Strategy: {strategy.description()}")
     print(f"Number of users = {num_users}")
     print(f"Theoretical best click rate = {100*best_click_rate:4.1f}%\n")
-    print(f"                     MAB   CMAB ")
-    print(f"                   -------------")
-    print(f"Number of clicks = {mab_num_clicks:>5d}  {cmab_num_clicks:>5d}")
-    print(f"Click rate       = {100*mab_average_click_rate:3.1f}%  "
-                           + f"{100*cmab_average_click_rate:3.1f}%")
+    print(f"Number of clicks = {num_clicks:>5d}")
+    print(f"Click rate       = {100*cmab_average_click_rate:3.1f}%")
     print()
 
     ## plot no regret evolution
-    plt.figure(1)
-    plt.plot(range(len(mab_out.no_regrets)), mab_out.no_regrets, 'r-', label="MAB")
-    plt.plot(range(len(cmab_out.no_regrets)), cmab_out.no_regrets, 'b-', label="CMAB")
-    plt.xlabel("Number of ads offered")
-    plt.ylabel("No Regret Count")
-    plt.legend(loc="upper left") 
-    plt.show()
+    # plt.figure(1)
+    # plt.plot(range(len(mab_out.no_regrets)), mab_out.no_regrets, 'r-', label="MAB")
+    # plt.plot(range(len(cmab_out.no_regrets)), cmab_out.no_regrets, 'b-', label="CMAB")
+    # plt.xlabel("Number of ads offered")
+    # plt.ylabel("No Regret Count")
+    # plt.legend(loc="upper left") 
+    # plt.show()

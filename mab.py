@@ -1,5 +1,5 @@
 '''
-Implementation of various Multi-Armed Bandit Algorithms.
+Implementation of various Multi-Armed Bandit Algorithms and Strategies.
 '''
 
 import operator
@@ -232,4 +232,80 @@ class CMAB:
         seen by the algorithm, it simply returns (None,None).'''
         if context not in self.mab: return (None,None)
         return self.mab[context].get_best_arm()
+
+
+######################################################################
+## Simple Discrete Contextual MAB
+## Using Summarized Contexts
+######################################################################
+class CMAB2(MAB):
+    '''
+    Simple Discrete Contextual Multi-armed Bandit implementation
+    using Summarized Contexts. This class extends simple MAB,
+    extending other models are also possible, e.g. UCB1.
+    '''
+
+    def __init__(self):
+        '''Constructor.'''
+        super().__init__()
+
+    def description(self):
+        '''Return a string which describes the algorithm.'''
+        return "Contextual MAB using Summarized Contexts"
+
+    def context(self, feature, action=None):
+        '''Return the context summarizing feature and action.'''
+        return (feature,action)
+
+    def update_reward(self, context, reward):
+        '''Use this method to update the algorithm which `context` has been
+        observed and what `reward` has been obtained from the environment.'''
+        super().update_reward(context,reward)
+
+    def get_best_arm(self, context):
+        '''Return a tuple (action,reward) representing the best arm and
+        the corresponding average reward. If this context has not been 
+        seen by the algorithm, it simply returns (None,None).'''
+        best_action = (None,None)  # (action,reward)
+        for cnx in self.average_reward:
+            if cnx[0]==context[0]: # context=(feature,action)
+                if best_action[0] is None or best_action[1]<self.average_reward[cnx]:
+                    best_action = (cnx[1],self.average_reward[cnx])
+        return best_action
+
+
+####################################################################
+## MAB Strategy
+####################################################################
+
+class BaseStrategy:
+    def description(self):
+        return f"100% exploration"
+    def is_exploration(self,round):
+        return True # default is 100% exploration
+
+class EpsilonGreedy(BaseStrategy):
+    def __init__(self,epsilon):
+        self.epsilon = epsilon
+    def description(self):
+        return f"Epsilon Greedy, epsilon = {self.epsilon}"
+    def is_exploration(self,round):
+        return random.random()<self.epsilon
+
+class EpsilonDecreasing(BaseStrategy):
+    def __init__(self,exponent):
+        self.exponent = exponent
+    def description(self):
+        return f"Epsilon-Decreasing, exponent = {self.exponent}"
+    def is_exploration(self,round):
+        epsilon = round**(self.exponent)
+        return random.random()<epsilon
+
+class ExplorationFirst(BaseStrategy):
+    def __init__(self,switch_round):
+        self.switch_round = int(switch_round)
+    def description(self):
+        return f"Explore-First for {self.switch_round} rounds"
+    def is_exploration(self,round):
+        return round<self.switch_round
 

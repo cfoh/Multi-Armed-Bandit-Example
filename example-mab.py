@@ -70,6 +70,7 @@ import time
 import matplotlib.pyplot as plt
 
 from mab import MAB
+from mab import ExplorationFirst, EpsilonGreedy, EpsilonDecreasing
 
 ######################################################################
 ## User behaviour matrix for the environment (static class)
@@ -97,16 +98,19 @@ class Theoretical:
 
     regret_series = [] # store the regret series
 
+    @staticmethod
     def expected_click_rate(arm) -> float:
         '''This is commonly notated as $\mu(a)$.'''
         return Ad.Type[arm]
 
+    @staticmethod
     def optimal_click_rate() -> float: 
         '''This is commonly notated as $\mu^*$, which is
         $\max_{a\in A} \mu(a)$
         '''
         return max([mu_a for mu_a in list(Ad.Type.values())])
 
+    @staticmethod
     def regret(t) -> float:
         '''This is commonly notated as $R(T)$, which is the regret
         at round $T$. It is calculated by 
@@ -121,6 +125,7 @@ class Theoretical:
         Theoretical.regret_series.append(regret_at_t)
         return regret_at_t
 
+    @staticmethod
     def get_regret_series():
         return Theoretical.regret_series
 
@@ -195,32 +200,6 @@ class Client:
 
 
 ####################################################################
-## MAB Strategy
-####################################################################
-
-class BaseStrategy:
-    def description(self):
-        return f"100% exploration"
-    def is_exploration(self,round):
-        return True # default is 100% exploration
-
-class EpsilonGreedy(BaseStrategy):
-    def __init__(self, epsilon):
-        self.epsilon = epsilon
-    def description(self):
-        return f"Epsilon Greedy, epsilon = {self.epsilon}"
-    def is_exploration(self,round):
-        return random.random()<self.epsilon
-
-class ExplorationFirst(BaseStrategy):
-    def __init__(self, switch_round):
-        self.switch_round = int(switch_round)
-    def description(self):
-        return f"Explore-First for {self.switch_round} rounds"
-    def is_exploration(self,round):
-        return round<self.switch_round
-
-####################################################################
 ## main loop
 ####################################################################
 
@@ -236,15 +215,16 @@ if __name__ == "__main__":
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)
+    #strategy = EpsilonDecreasing(-0.5)
     #strategy = EpsilonGreedy(1.0) # set to 1.0 for 100% exploration
     #strategy = ExplorationFirst(0.2*num_users) # 20% exploration first
     #strategy = ExplorationFirst(0.02*num_users) # 2% exploration first
 
     ## ready-set-go
     print("\n")
-    spiner = ["\u2212","\\","|","/","\u2212","\\","|","/"]
+    spinner = ["\u2212","\\","|","/","\u2212","\\","|","/"]
     for i in range(40,0,-1):
-        print(f"\033[KRunning in ...{ceil(i/10)} {spiner[i%len(spiner)]}")
+        print(f"\033[KRunning in ...{ceil(i/10)} {spinner[i%len(spinner)]}")
         print("\033[2A")
         time.sleep(0.1*animation)
     print(f"\033[K")
