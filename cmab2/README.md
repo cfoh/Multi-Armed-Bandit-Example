@@ -14,10 +14,9 @@ Chapter 6: Contextual Multi Armed Bandit (more)
 </td>
 <td>
   Demo:<br>
-  <img src="https://user-images.githubusercontent.com/51439829/200530420-104d1d82-1178-46b4-a033-e4e3e8f2d896.gif" width="400">
+  <img src="https://user-images.githubusercontent.com/51439829/202530110-465848ec-bd0a-4940-9fc5-0776b69157f1.gif" width="400">
 </td>
 <tr><td colspan="2">
-
 The above is a simple demo showing how a single ML agent manage contexts. We have 5 user age groups and 5 types of advertisements to offer to each user. The demo shows the number of ads shown for each age group. As can be seen, the ML agent can differentiate user age groups and serve them with different types of ads that maximizes click through rate.
 <br>
 Press `[F5]` to restart the demo.
@@ -94,15 +93,15 @@ To confirm that the ML agent can differentiate user age group and picks the opti
 |                   |              Age group               |
 | Ad Type           |  <25    26-35   36-45   46-55  >55   |
 +-------------------+--------------------------------------+
-| Toys & Games      |  80%     15%     10%     5%     5%   |
-| Cars              |   5%     50%     30%    15%    10%   |
-| Sports            |  15%     30%     40%    30%    30%   |
-| Holiday Packages  |   5%     20%     35%    50%    50%   |
-| Foods & Health    |   5%     25%     25%    40%    60%   |
+| Toys & Games      | [80%]    15%     10%     5%     5%   |
+| Cars              |   5%    [50%]    30%    15%    10%   |
+| Sports            |  15%     30%    [40%]   30%    30%   |
+| Holiday Packages  |   5%     20%     35%   [50%]   50%   |
+| Foods & Health    |   5%     25%     25%    40%   [60%]  |
 +-------------------+--------------------------------------+
 ```
 
-Based on the above, we expect `toys`, `cars`, `sports`, `holidays` and `foods` to be the optimal choice for age groups 1,2,3,4 and 5 respectively. Indeed, the agent eventually exploits those optimal choices for the age groups as shown below.
+In the above, those with brackets are the best among others within the same age group. Based on that, we expect `toys`, `cars`, `sports`, `holidays` and `foods` to be the optimal choice for age groups 1, 2, 3, 4 and 5 respectively. Indeed, the agent eventually exploits those optimal choices for the age groups as shown below.
 
 ```console
 Testing Contextual MAB using Summarized Contexts
