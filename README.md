@@ -18,7 +18,7 @@ Chapter 1: Simple MAB
 <td>
   Demo:<br>
   <img src="https://user-images.githubusercontent.com/51439829/200315041-54cde21e-16c1-4350-8973-a6844ef21534.gif" width="400">
-  <br><b>NOTE for Windows User:</b> Animation will only work in `Windows Terminal` (available in Windows 10 and later), as `PowerShell` and `Command Prompt` will not interpret Escape Codes.</b>
+  <br><b>NOTE for Windows User:</b> Animation will only work in `Windows Terminal` (available in Windows 10 and later), as `PowerShell` and `Command Prompt` do not support Escape Codes.</b>
 </td>
 <tr><td colspan="2">
 The above demo shows how the ML agent offers advertisements. Users prefer `sports`, with 40% chance to click. The ML agent initially exploited `cars` as it was receiving good click through rate. As the agent explored more on `sports`, its click through rate improved and became the best. The agent then continued to exploit `sports` with occasion exploration to other ads.
