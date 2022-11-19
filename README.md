@@ -18,6 +18,7 @@ Chapter 1: Simple MAB
 <td>
   Demo:<br>
   <img src="https://user-images.githubusercontent.com/51439829/200315041-54cde21e-16c1-4350-8973-a6844ef21534.gif" width="400">
+  <br><b>NOTE for Windows User:</b> Animation will only work in `Windows Terminal` (available in Windows 10 and later), as `PowerShell` and `Command Prompt` will not interpret Escape Codes.</b>
 </td>
 <tr><td colspan="2">
 The above demo shows how the ML agent offers advertisements. Users prefer `sports`, with 40% chance to click. The ML agent initially exploited `cars` as it was receiving good click through rate. As the agent explored more on `sports`, its click through rate improved and became the best. The agent then continued to exploit `sports` with occasion exploration to other ads.
@@ -170,6 +171,8 @@ There are two popular strategies:
 The selection of strategy is critical if the time horizon is finite. That is, you only have a finite number of rounds to explore and exploit. For example, you are visiting a new town for a week, should you explore a new restaurant for every dinner or exploit a good one when you discovered one? This specific problem has been studied and the result is quite interesting, see [Gittins Index](https://en.wikipedia.org/wiki/Gittins_index).
 
 ## Outcomes<a name=outcomes></a>
+
+Animation issue in Windows `Command Prompt` or `PowerShell`? Use `Windows Terminal` which supports escape codes.
 
 We measure the effectiveness of our strategy by `click through rate` (CTR) or simply called `click rate`. It is the percentage that a user will click and explore the offered advertisement. We use Epsilon-Greedy strategy with the setting $\epsilon=0.15$, and we achieve around 36% of click rate. If somehow the ML agent knows the user behaviour, it will, of course, always offer `sports` which has the highest click rate among all, and so the theoretical optimal click rate is 40%. Our ML agent achieves 36% which is actually not far from the optimal click rate.
 
