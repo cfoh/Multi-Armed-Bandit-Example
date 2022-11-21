@@ -1,4 +1,4 @@
-# Multi-Armed Bandit (MAB)
+# Multi-Armed Bandit (MAB) ![Machine Learning: Multi-Armed Bandit](https://img.shields.io/badge/Machine%20Learning-Multi--Armed%20Bandit-blueviolet)
 
 <table>
 <tr><td colspan="2"><b>
@@ -28,7 +28,7 @@ Press `[F5]` to restart the demo.
 <tr><td colspan="2">
 <b>Contents</b><br>
 <ul>
-<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Simple Multi Armed Bandit</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example">Chapter 1: Simple Multi Armed Bandit</a>&nbsp;<img src="https://img.shields.io/badge/This-Chapter-blue"></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ucb">Chapter 2: Upper Confidence Bound (UCB) Algorithm</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax">Chapter 3: Boltzmann Exploration (Softmax)</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Thompson Sampling Technique</a></li>
