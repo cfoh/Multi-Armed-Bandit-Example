@@ -1,4 +1,4 @@
-# Multi-Armed Bandit (MAB) ![Machine Learning: Multi-Armed Bandit](https://img.shields.io/badge/Machine%20Learning-Multi--Armed%20Bandit-blueviolet)
+# Multi-Armed Bandit (MAB) ![Machine Learning: Multi-Armed Bandit](https://img.shields.io/badge/Machine%20Learning-Multi--Armed%20Bandit-blueviolet) ![MIT License](https://img.shields.io/badge/License-MIT-green?logo=github)
 
 <table>
 <tr><td colspan="2"><b>
