@@ -104,7 +104,7 @@ Our setup is:
 
 ## MAB Implementation<a name=codes></a>
 
-Here we're dealing with Stochastic Bandit problem. In other words, the rewards we observe from the environment follow a particular random behaviour which is unknown to us. We want to develop a policy that we can learn the rewards over the time and improve our decision.
+Here we're dealing with **Stochastic Bandit** problem. In other words, the rewards we observe from the environment follow a particular random behaviour which is unknown to us. We want to develop a policy that we can learn the rewards over the time and improve our decision.
 
 The process of MAB is very simple. In this example, the agent has 5 ads (or `arms`) to show to users. It switches between exploration and exploitation. 
 - During exploration, it randomly picks an ad. After showing the ad, it observes whether the ad banner has been clicked by the user. The outcome is translated to `rewards` and recorded in a `reward table`.
