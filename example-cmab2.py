@@ -13,7 +13,6 @@ changes are needed. Briefly, the algorithm can be described by:
 from math import ceil
 import random
 import time
-import matplotlib.pyplot as plt
 
 from mab import CMAB2
 from mab import ExplorationFirst, EpsilonGreedy, EpsilonDecreasing
@@ -173,7 +172,7 @@ if __name__ == "__main__":
     num_clicks = 0       # number of clicks collected for cmab
     animation  = True   # True/False
 
-    ## we run both agents together
+    ## we the agent
     cmab = CMAB2()    # MAB agent with summarized contexts
     cmab_out = Empirical()
 
@@ -253,11 +252,3 @@ if __name__ == "__main__":
     print(f"Click rate       = {100*cmab_average_click_rate:3.1f}%")
     print()
 
-    ## plot no regret evolution
-    # plt.figure(1)
-    # plt.plot(range(len(mab_out.no_regrets)), mab_out.no_regrets, 'r-', label="MAB")
-    # plt.plot(range(len(cmab_out.no_regrets)), cmab_out.no_regrets, 'b-', label="CMAB")
-    # plt.xlabel("Number of ads offered")
-    # plt.ylabel("No Regret Count")
-    # plt.legend(loc="upper left") 
-    # plt.show()
