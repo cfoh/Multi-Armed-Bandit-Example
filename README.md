@@ -166,7 +166,7 @@ There are two popular strategies:
 - **Explore-First**: We explore random arms for some rounds, 
   then we switch to exploitation for the remaining rounds of operation.
 - **Epsilon-Greedy**: For every round, we explore a random arm with $\epsilon$
-  probability. We can set $\epsilon$ to a fixed value or use a function. We often use an $\epsilon$-decreasing function, e.g. $\epsilon=t^{-\frac{1}{3}}$ where $t$ is the current round so that the agent performs more explorations as time progresses.
+  probability. We can set $\epsilon$ to a fixed value or use a function. We often use an $\epsilon$-decreasing function, e.g. $\epsilon=t^{-\frac{1}{3}}$ where $t$ is the current round so that the agent performs more exploitations as time progresses.
 
 The selection of strategy is critical if the time horizon is finite. That is, you only have a finite number of rounds to explore and exploit. For example, you are visiting a new town for a week, should you explore a new restaurant for every dinner or exploit a good one when you discovered one? This specific problem has been studied and the result is quite interesting, see [Gittins Index](https://en.wikipedia.org/wiki/Gittins_index).
 
