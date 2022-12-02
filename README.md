@@ -38,6 +38,9 @@ Press `[F5]` to restart the demo.
 </td></tr>
 </table>
 
+![benoit-dare-wPXEQz40f8s-unsplash](https://user-images.githubusercontent.com/51439829/205308105-09ecd7cb-aff0-4d0a-be1e-df9e372bda56.jpg)
+<div align="center"><small>Photo by Benoit Dare on Unsplash.</small></div>
+
 ## Introduction<a name=intro></a>
 
 **Digital advertising** is a form of marketing that targets online
