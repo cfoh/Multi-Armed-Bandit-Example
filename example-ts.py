@@ -220,8 +220,6 @@ if __name__ == "__main__":
         Empirical.report(offered_ad, click_reward)
         mab.update_reward(arm=offered_ad, reward=click_reward)
 
-        Theoretical.regret(round)
-
         ## show animation
         for arm in Ad.AllArms:
             r = mab.get_reward(arm)
