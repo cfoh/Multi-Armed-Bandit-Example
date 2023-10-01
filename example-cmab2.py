@@ -33,7 +33,7 @@ class Ad:
         "foods"    : [0.05, 0.25, 0.25, 0.40, 0.60]
     }
     AllArms = list(Type.keys()) # list of all ad types
-    AgeGroupSize = len(AllArms)
+    AgeGroupSize = len(list(Type.values())[0])
     AllAgeGroups = range(AgeGroupSize)
 
 ######################################################################
@@ -154,7 +154,7 @@ class Client:
             self.group = age_group
 
     def will_click(self, ad) -> bool:
-        '''Will this client clicks this advert?'''
+        '''Will this client click this advert?'''
         click_prob = random.randint(0,99)
         if click_prob<100*Ad.Type[ad][self.group]:
             return True

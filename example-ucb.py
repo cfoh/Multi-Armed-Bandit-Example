@@ -130,7 +130,7 @@ class Empirical:
 class Client:
 
     def will_click(self, ad) -> bool:
-        '''Will this client clicks this advert?'''
+        '''Will this client click this advert?'''
         click_prob = random.randint(0,99)
         if click_prob<100*Ad.Type[ad]:
             return True

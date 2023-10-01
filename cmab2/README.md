@@ -30,13 +30,14 @@ Press `[F5]` to restart the demo.
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ts">Chapter 4: Thompson Sampling Technique</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2">Chapter 6: Contextual Multi Armed Bandit (more)</a>&nbsp;<img src="https://img.shields.io/badge/This-Chapter-blue"></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn">Chapter 7: Implementing C-MAB using Feed Forward Neural Network (FFNN)</a></li>
 </ul>
 </td></tr>
 </table>
 
 ## Introduction<a name=intro></a>
 
-In the last chapter, we introduce Contextual Multi Armed Bandit. In our example, we use different user age groups as the context to partition the learning. Precisely, we create 5 independent ML agents, each looks after a specific user age group.
+In the chapter, we introduce Contextual Multi Armed Bandit. In our example, we use different user age groups as the context to partition the learning. Precisely, we create 5 independent ML agents, each looks after a specific user age group.
 
 In the [work](https://arxiv.org/pdf/1003.0146.pdf) by Li *et al.*, user features and actions are summarized into context. In this chapter, we shall implement MAB using this approach. With this implementation, we only have a single ML agent. Because the contexts contain both user features and actions, it is possible for the ML agent to focus on a specific user feature and learn the best action for that user feature.
 
