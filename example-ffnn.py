@@ -212,15 +212,15 @@ if __name__ == "__main__":
                   " "*12,"C-MAB table"," "*10,"FFNN prediction")
             for context in range(num_contexts):
                 print(f"c={context}: ",end="")
-                array_true    = [Ad.Type[arm][context] for arm in Ad.AllArms]
+                array_fact    = [Ad.Type[arm][context] for arm in Ad.AllArms]
                 array_episode = []
-                array_life = []
-                array_ffnn = []
+                array_life    = []
+                array_ffnn    = []
                 for action in range(num_actions):
                     array_life.append(context_action_life.get_mean_value(context,action,None))
                     array_episode.append(context_action_episode.get_mean_value(context,action,None))
                     array_ffnn = model.predict(np.array([context_array(context)]),verbose=0)[0]
-                print(array_to_str(array_true),end="")
+                print(array_to_str(array_fact),end="")
                 print(array_to_str(array_episode),end="")
                 print(array_to_str(array_life),end="")
                 print(array_to_str(array_ffnn))
