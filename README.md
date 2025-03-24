@@ -35,6 +35,10 @@ Press `[F5]` to restart the demo.
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2">Chapter 6: Contextual Multi Armed Bandit (more)</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn">Chapter 7: Implementing C-MAB using Feed Forward Neural Network (FFNN)</a></li>
+<li><b>Recommended reading</b>: 
+    <ul>
+    <li><a href="https://arxiv.org/pdf/1904.07272"><img src="https://img.shields.io/badge/PDF-F40F02"> Introduction to Multi-Armed Bandits by Aleksandrs Slivkins (Microsoft Research NYC)</a></li>
+    </ul>
 </ul>
 </td></tr>
 </table>
