@@ -167,7 +167,7 @@ if __name__ == "__main__":
     create_beta = False # to create animated beta function plot?
 
     ## setup MAB (pick one)
-    mab = TS()         # Thomspon Sampling
+    mab = TS()         # Thompson Sampling
 
     ## setup exploration-exploitation strategy (pick one)
     strategy = EpsilonGreedy(0.15)

@@ -185,13 +185,13 @@ class SoftMax(MAB):
         '''Get the probability dictionary for all arms. Each quantity describes
         the probability that an arm will be picked.'''
         arm_prob = {}
-        weigth_sum = 0
+        weight_sum = 0
         if len(self.average_reward)!=0:
             for arm,reward in self.average_reward.items():
                 arm_prob[arm] = math.exp(reward/self.tau)
-                weigth_sum += arm_prob[arm]
+                weight_sum += arm_prob[arm]
             for arm in arm_prob:
-                arm_prob[arm] /= weigth_sum
+                arm_prob[arm] /= weight_sum
         return(arm_prob)
 
 ######################################################################
