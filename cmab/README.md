@@ -155,4 +155,4 @@ We also plot the no regret evolution over the course of the experiment below. We
 
 ## What's Next?<a name=next></a>
 
-Contextual Multi Armed Bandit can also be implemented differently. We can summarize user features and actions to form contexts. With all information summarized in the context, we can then use a single ML agent to manage all contexts. We shall disucss this implementation in the next chapter.
+Contextual Multi Armed Bandit can also be implemented differently. We can summarize user features and actions to form contexts. With all information summarized in the context, we can then use a single ML agent to manage all contexts. We shall discuss this implementation in the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2).
