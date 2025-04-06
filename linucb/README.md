@@ -45,7 +45,7 @@ With some collected data, we can apply least-squares estimation to estimate the 
 
 $$β^* = \underset{\hat{β}}{\arg\min} \sum_{i=1}^{n} \left( x_i^\top \hat{β} - y_i \right)^2$$
 
-It turns out that the coefficient vector can be directly solved by ([see here for the derivation](https://en.wikipedia.org/wiki/Linear_regression#Estimation_methods)):
+It turns out that the coefficient vector can be directly solved by the following ([see here for the derivation](https://en.wikipedia.org/wiki/Linear_regression#Estimation_methods)):
 
 $$β = (X^\top X)^{-1} X^\top y$$
 
@@ -197,7 +197,7 @@ The following table defines environment or the **true probability** that a user 
 +-------------------+--------------------------------------+
 ```
 
-![linucb-ground-truth](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/linucb/fig-linucb-ground-truth-vs-prediction.svg)
+![linucb-ground-truth](https://github.com/cfoh/Multi-Armed-Bandit-Example/blob/main/linucb/fig-linucb-ground-truth-vs-prediction.svg)
 
 In the plot, the solid lines show the ground truth and the dotted lines show the linear function fitted by LinUCB. As can be seen, while none of the arms behaves exactly linearly to the age, most of them can be fitted into a linear function to capture their trend except for `Sports`. For `Sports`, users in both young age and old age have less interest but users in middle age have very strong interest. This has created a bell-shape like curve which cannot be described by a linear function. Later, we shall see the impact of this user behaviour on LinUCB performance.
 
