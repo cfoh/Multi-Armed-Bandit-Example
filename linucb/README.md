@@ -61,7 +61,7 @@ With Ridge Regression, we see that the solution favors smaller coefficient value
 
 $$β = (X^\top X + \lambda I)^{-1} X^\top y$$
 
-where $I$ is an identity matrix. The following is the implementation of Ridge Regression (see also the full source code [here](https://github.com/cfoh/Multi-Armed-Bandit-Example/blob/main/linucb/ridge.py):
+where $I$ is an identity matrix. The following is the implementation of Ridge Regression (see also the full source code [here](https://github.com/cfoh/Multi-Armed-Bandit-Example/blob/main/linucb/ridge.py)):
 
 ```python
 #########################################################
@@ -105,7 +105,7 @@ We then compute the coefficient matrix and estimate the $y$ value by:
 $$\hat{β} = (A + λI)^{-1} b$$
 $$\hat{y} = \hat{β}^\top \vec{x}_i$$
 
-The following is the implementation of online Ridge Regression (see also the full source code [here](https://github.com/cfoh/Multi-Armed-Bandit-Example/blob/main/linucb/ridge.py):
+The following is the implementation of online Ridge Regression (see also the full source code [here](https://github.com/cfoh/Multi-Armed-Bandit-Example/blob/main/linucb/ridge.py)):
 
 ```python
 #########################################################
