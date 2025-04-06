@@ -77,7 +77,7 @@ Note that the feature is a tuple. In our example, it is a single element tuple c
 
 ## The Outcomes<a name=outcomes></a>
 
-We setup a scenario to recommend ads to 40000 users. For each user, we pick a type of ad and recommend 20 ads of that type. The user will have an opportunity to click any, and we measure how many ads does the user click or like.
+We setup a scenario to recommend ads to 50000 users. For each user, we pick a type of ad and recommend 20 ads of that type. The user will have an opportunity to click any, and we measure how many ads does the user click or like.
 
 Our reward for each user is the click through rate (or simply click rate) which is measured by the percentage that the user has clicked out of the 20 offered ads. If the user clicked all, then the click rate is 1.0. If the user clicked into 5 of the ads to explore, the click rate is 5/20 = 0.25.
 
