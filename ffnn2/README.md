@@ -83,7 +83,7 @@ Our reward for each user is the click through rate (or simply click rate) which 
 
 In the following plot, we compare the ground truth (the solid lines) and the predicted rewards (the dotted lines). Unlike LinUCB, FFNN is flexible to produce a shape of curve that best represents the seen data. The data are used for training, the more accurate the predict becomes, provided that the FFNN model is sufficiently large to produce the complex shape.
 
-![ffnn2-ground-truth](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn2/fig-ffnn2-ground-truth-vs-prediction.svg)
+![ffnn2-ground-truth](https://github.com/cfoh/Multi-Armed-Bandit-Example/blob/main/ffnn2/fig-ffnn2-ground-truth-vs-prediction.png)
 
 The following table lists the outcome for all features or ages. Recall that LinUCB failed to recommend `Sports` as its reward curve is not linear. With FFNN, the issue is overcome. As can be seen, it can now accurately recommend `Sports` most of the time, although it missed some other ads. Its performance can be further improved by undergoing more training.
 
