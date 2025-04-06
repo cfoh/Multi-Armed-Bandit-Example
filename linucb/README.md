@@ -368,3 +368,7 @@ In the following, we present the learning outcome of LinUCB by comparing the gro
 It is important to know that LinUCB requires the feature-reward relationship to be linear. In this example, we illustrate that LinUCB can be effective when the feature-reward relationship is linear, but will fail if not. In many real-world applications, the feature-reward relationship is either known to be non-linear or unknown. How do we deal with this situation?
 
 We can consider using neural networks. A neural network is a function approximator. It can perform regression of a complex shape of curves. In the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn2/README.md), we shall illustrate how to implement a neural network for the scenario used in this chapter.
+
+The following is a preview of FFNN regression outcome. Let's focus on `Sports` (shown in purple solid line) which exhibits a bell shape. With FFNN regression technique, the regression outcome (shown in brown dotted line) can now capture the trend and produce a bell shape like curve closely matching the ground truth.
+
+![ffnn2-ground-truth](https://github.com/cfoh/Multi-Armed-Bandit-Example/blob/main/ffnn2/fig-ffnn2-ground-truth-vs-prediction.png)
