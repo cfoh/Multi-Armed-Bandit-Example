@@ -32,6 +32,8 @@ Press `[F5]` to restart the demo.
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2">Chapter 6: Contextual Multi Armed Bandit (more)</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn">Chapter 7: Implementing C-MAB using Feed Forward Neural Network (FFNN)</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/linucb">Chapter 8: Linear Bandit and LinUCB</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn2">Chapter 9: Deep Learning Based Bandit for C-MAB</a></li>
 </ul>
 </td></tr>
 </table>
@@ -40,7 +42,7 @@ Press `[F5]` to restart the demo.
 
 In the previous chapters, we see the ML agent greedily chooses the arm with the highest average reward. While choosing the highest average reward seems to be the best option, it may miss other options that are just below the best, and one of these options may actually be the best but just suffers from short-term bias.
 
-Rather than focusing on the best, Boltzmann Exploration first establishes a weight for each arm based on its empirical average reward compared to all others, then pick an arm based on the weights. viewuses a Pick an arm with a probability proportional to is average reward. The following is how it establishes the weight (or probability). Let there be $N$ arms where $\mathbf{N}$={1,2,..., $N$}, and $\mu_n$ be the empirical mean reward of $n$-th arm. The probability for the agent to pick arm $a$ follows the following softmax function where $\tau$ is a hyperparameter scaling mean rewards:
+Rather than focusing on the best, Boltzmann Exploration first establishes a weight for each arm based on its empirical average reward compared to all others, then picks an arm based on the weights. It picks an arm with a probability proportional to its average reward. The following is how it establishes the weight (or probability). Let there be $N$ arms where $\mathbf{N}$={1,2,..., $N$}, and $\mu_n$ be the empirical mean reward of $n$-th arm. The probability for the agent to pick arm $a$ follows the following softmax function where $\tau$ is a hyperparameter scaling mean rewards:
 
 $$P(a) = \frac{\exp(\frac{\mu_a}{\tau})}{\sum_{n\in \mathbf{N}}\exp(\frac{\mu_n}{\tau})}$$
 
@@ -75,7 +77,7 @@ class SoftMax(MAB):
 
 ## Outcomes<a name=outcomes></a>
 
-For softmax exploration, we're also interested in the weight for each arm. Thus, in the demo, we also show the weight which is also the probability that an arm will be picked. In the simulation, we set $\tau=0.05$. The value is set arbitrarily. Setting it too large will flatten the distribution curve while setting it too small will sharpen the distribtion curve and create large contrast among the probabilities. The large contrast will cause the agent to focus on the highest mean reward, making the decision hard again.
+For softmax exploration, we're also interested in the weight for each arm. Thus, in the demo, we also show the weight which is also the probability that an arm will be picked. In the simulation, we set $\tau=0.05$. The value is set arbitrarily. Setting it too large will flatten the distribution curve while setting it too small will sharpen the distribution curve and create large contrast among the probabilities. The large contrast will cause the agent to focus on the highest mean reward, making the decision hard again.
 
 ```console
 Testing Boltzmann Exploration (Softmax)

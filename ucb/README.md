@@ -32,6 +32,8 @@ Press `[F5]` to restart the demo.
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2">Chapter 6: Contextual Multi Armed Bandit (more)</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn">Chapter 7: Implementing C-MAB using Feed Forward Neural Network (FFNN)</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/linucb">Chapter 8: Linear Bandit and LinUCB</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn2">Chapter 9: Deep Learning Based Bandit for C-MAB</a></li>
 </ul>
 </td></tr>
 </table>
@@ -63,7 +65,7 @@ Having the UCB, instead of using the observed average reward $\bar{\mu}(a)$ to d
 The UCB system takes a few parameters to construct $\alpha$, $\beta$ and $T$. The classical UCB (or UCB1, as described in Figure 1 in [this paper](https://people.eecs.berkeley.edu/~russell/classes/cs294/s11/readings/Auer+al:2002.pdf)) has the following settings:
 - $\alpha$: It controls the failure where a future reward escapes the bound.
   This value should be sufficiently small to ensure that the probability of 
-  failure is very small. In many implemenations, we set $\alpha=2$.
+  failure is very small. In many implementations, we set $\alpha=2$.
 - $\beta$: It is a scalar related to the reward range. 
   If rewards are within a range $[u,v]$, then $\beta = (v-u)^2$. For the 
   reward range of $[0,1]$, $\beta=1$.
@@ -107,7 +109,7 @@ class UCB1(MAB): # it extends class MAB to implement UCB
 
 ## Outcomes<a name=outcomes></a>
 
-The following shows some statistics of the learning. As can be seen, the average rewards for all arms are quite similar. Based on the environment, we know that some ads have low theoretical click rate. But since we use the UCB as the reward, they are given the benefit of doubt with a higher UCB radius, and hence their reward is artificially improved. The UCB radius is shown under `UCB raduis` in the animation.
+The following shows some statistics of the learning. As can be seen, the average rewards for all arms are quite similar. Based on the environment, we know that some ads have low theoretical click rate. But since we use the UCB as the reward, they are given the benefit of doubt with a higher UCB radius, and hence their reward is artificially improved. The UCB radius is shown under `UCB radius` in the animation.
 
 ```console
 Testing UCB MAB
@@ -131,10 +133,10 @@ Click rate = 35.45%
 Theoretical best click rate = 40.00%
 ```
 
-Unlike the simple MAB where the learning can be highly influenced by the short-term bias in the environment, UCB can self-correct this bias by offseting the effect using UCB radius. Thus in the simple MAB, the exploration rate must not be too low to avoid being influenced by the short-term bias in the environment, UCB can be operated with a low exploration rate. When all arms are sufficiently explored and all UCB radii are equally low, the best arm will be revealed.
+Unlike the simple MAB where the learning can be highly influenced by the short-term bias in the environment, UCB can self-correct this bias by offsetting the effect using UCB radius. Thus in the simple MAB, the exploration rate must not be too low to avoid being influenced by the short-term bias in the environment, UCB can be operated with a low exploration rate. When all arms are sufficiently explored and all UCB radii are equally low, the best arm will be revealed.
 
 ## What's Next?<a name=next></a>
 
 In the previous chapter, we introduce MAB and demonstrated its operation using a primitive MAB. This chapter discusses the classical UCB which aims to avoid missing potential good arms due to short-term bias in the environment. 
 
-In both techniques, the ML agent exploits the best arm by choosing the arm with the highest average reward. This decision is hard and can get the agent stucked at a local maximal. In the next chapter, we shall look at `Boltzmann Exploration` which is also called the softmax exploration. Rather focusing on the best arm, the technique uses softmax function to decide which arm to pick. We shall see in the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax) how the ML agent makes decision using softmax function.
+In both techniques, the ML agent exploits the best arm by choosing the arm with the highest average reward. This decision is hard and can get the agent stuck at a local maximal. In the next chapter, we shall look at `Boltzmann Exploration` which is also called the softmax exploration. Rather focusing on the best arm, the technique uses softmax function to decide which arm to pick. We shall see in the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/smax) how the ML agent makes decision using softmax function.

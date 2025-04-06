@@ -12,11 +12,14 @@
   - [Introduction](#intro)
   - [Implementation](#code)
   - [The Outcomes](#outcomes)
+  - [What's Next?](#next)
+- [Chapter 8: Linear Bandit and LinUCB](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/linucb)
+- [Chapter 9: Deep Learning Based Bandit for C-MAB](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn2)
 
 
 ## Introduction<a name=intro></a>
 
-In Contextual Multi-Armed Bandit (C-MAB), the machine learning (ML) agent uses a table to store values of actions for different contexts. This context-action value table can be replaced by a feed forward neural network (FFNN). There are several advantages to use a FFNN instead of a table. FFNN can better handle context with a huge space, and can deal with context containing continuous values. Besides, FFNN can natively predict action values for unseen contexts whereas table-driven C-MAB cannot and it must use a separate technique such as KNN to infer the action values. However, FFNN requires more data to get trained.
+In Contextual Multi-Armed Bandit (C-MAB), the machine learning (ML) agent uses a table to store values of actions for different contexts. This context-action table can be replaced by a feed forward neural network (FFNN). There are several advantages to use a FFNN instead of a table. FFNN can better handle context with a huge space, and can deal with context containing continuous values. Besides, FFNN can natively predict action values for unseen contexts whereas table-driven C-MAB cannot and it must use a separate technique such as KNN to infer the action values. However, FFNN requires more data to get trained.
 
 ## Implementation<a name=codes></a>
 
@@ -78,3 +81,9 @@ c=4: [0.05,0.10,0.30,0.50,0.60][0.00,0.19,0.41,0.56,0.53][0.06,0.11,0.34,0.48,0.
 As can be seen, C-MAB table tracks closely to the Fact while FFNN gives good but not excellent prediction. Since the decision is based on selecting the action with the highest action value among all for each context, accuracy of action values are not critical as long as the highest action value is the best action based on the Fact. We see that both C-MAB & FFNN are able to accurately pick the best action for each context.
 
 We conclude that since this is a very simple problem, use of FFNN is unnecessary. Table driven C-MAB is more than adequate to handle this problem. The purpose of this example is to illustrate how FFNN can be used to replace the context-action table in C-MAB.
+
+## What's Next?<a name=next></a>
+
+In this example, the contexts are clearly partitioned which make the establishment of context-action table relative straightforward. As a result, replacing it with FFNN is not a clever move indeed, as FFNN requires more data for training to achieve accurate prediction. In the real-world applications, how contexts are partitioned is often unknown. In this example, we may only know that the behaviour of a user depends on his/her age, but we do not know how to partition them into groups to describe the contexts. The clustering may require additional analysis using techniques such as unsupervised learning.
+
+Fortunately, if we know that the context-reward has a linear relationship, we can use linear regression to make prediction of the rewards. In the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/linucb/README.md), we shall explore LinUCB which is an effective technique when context-reward forms a linear relationship.

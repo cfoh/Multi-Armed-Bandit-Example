@@ -3,3 +3,5 @@ venv/*
 .vscode/*
 resources/*
 __pycache__/*
+ffnn/venv/*
+ffnn2/venv/*

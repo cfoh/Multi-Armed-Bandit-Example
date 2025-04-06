@@ -10,6 +10,7 @@ Chapter 6: Contextual Multi Armed Bandit (more)
         <li><a href=#intro>Introduction</a></li>
         <li><a href=#codes>Implementation</a></li>
         <li><a href=#outcomes>The Outcomes</a></li>
+        <li><a href=#next>What's Next?</a></li>
     </ul>
 </td>
 <td>
@@ -31,6 +32,8 @@ Press `[F5]` to restart the demo.
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab">Chapter 5: Contextual Multi Armed Bandit</a></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/cmab2">Chapter 6: Contextual Multi Armed Bandit (more)</a>&nbsp;<img src="https://img.shields.io/badge/This-Chapter-blue"></li>
 <li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn">Chapter 7: Implementing C-MAB using Feed Forward Neural Network (FFNN)</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/linucb">Chapter 8: Linear Bandit and LinUCB</a></li>
+<li><a href="https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn2">Chapter 9: Deep Learning Based Bandit for C-MAB</a></li>
 </ul>
 </td></tr>
 </table>
@@ -82,13 +85,13 @@ class CMAB2(MAB):
 
 ## Outcomes<a name=outcomes></a>
 
-To confirm that the ML agent can differentiate user age group and picks the optimal arm for each user age group, we show a table illustrating which type of ads the agent presents to each user age group. Recall the environment:
+To confirm that the ML agent can differentiate user age group and picks the optimal arm for each user age group, we show the table illustrating which type of ads (i.e. action) the agent presents to each user age group (i.e. context). Recall the environment:
 
 ```
   The Environment
 +-------------------+--------------------------------------+
-|                   |              Age group               |
-| Ad Type           |  <25    26-35   36-45   46-55  >55   |
+| Ad Type           |         Age group (context)          |
+| (action)          |  <25    26-35   36-45   46-55  >55   |
 +-------------------+--------------------------------------+
 | Toys & Games      | [80%]    15%     10%     5%     5%   |
 | Cars              |   5%    [50%]    30%    15%    10%   |
@@ -97,6 +100,8 @@ To confirm that the ML agent can differentiate user age group and picks the opti
 | Foods & Health    |   5%     25%     25%    40%   [60%]  |
 +-------------------+--------------------------------------+
 ```
+
+The aim of the C-MAB algorithm is to observe the feedback from the environment to establish a context-action table that closely approximates the ground truth from the environment. 
 
 In the above, those with brackets are the best among others within the same age group. Based on that, we expect `toys`, `cars`, `sports`, `holidays` and `foods` to be the optimal choice for age groups 1, 2, 3, 4 and 5 respectively. Indeed, the agent eventually exploits those optimal choices for the age groups as shown below.
 
@@ -119,3 +124,7 @@ Theoretical best click rate = 56.0%
 Number of clicks =  5054
 Click rate       = 50.5%
 ```
+
+## What's Next?<a name=next></a>
+
+The MAB and C-MAB techniques so far we have studied use tables to store information about the data seen. Instead of using a table, we can also use a neural network. The benefit of using a neural network is its capability to structure data and infer unseen data. In the [next chapter](https://github.com/cfoh/Multi-Armed-Bandit-Example/tree/main/ffnn), we shall illustrate how to directly replace action-value table in C-MAB using a neural network. 
