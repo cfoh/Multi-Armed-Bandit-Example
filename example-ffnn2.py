@@ -1,3 +1,18 @@
+'''
+This is an example of using a Feed Forward Neural Network (FFNN) to solve
+a Contextual Multi-Armed Bandit (C-MAB) problem. The FFNN is used to predict 
+the click through rate of different ads based on the user's age. The MAB 
+problem is solved using an epsilon-greedy strategy, where the agent explores 
+different ads with a certain probability (epsilon) and exploits the best ad 
+with the highest predicted click through rate.
+
+The main task of C-MAB is to predict the click through rate of different ads
+for different users based on their features (in this case, age). In other 
+words, the agent needs to learn the mapping between user features and the
+click through rate of different ads. FFNN is used to learn this mapping.
+'''
+
+
 import random
 import numpy as np
 from tensorflow.keras.models import Sequential

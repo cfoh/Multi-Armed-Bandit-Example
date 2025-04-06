@@ -276,7 +276,7 @@ class CMAB2(MAB):
 
 
 ######################################################################
-## LinUCD with online Ridge regression solver
+## LinUCB with online Ridge regression solver
 ######################################################################
 class OnlineRidgeRegression:
 
